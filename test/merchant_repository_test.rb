@@ -15,12 +15,12 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_merchant_repo_has_merchants
-skip
+
     merchant_repository = MerchantRepository.new("./test/abridged_list/mini_merchant_list.csv")
 
     assert_equal 4, merchant_repository.all.count
     assert_instance_of Array, merchant_repository.all
-    assert merchant_repository.all.all? {|merchant| merchant.is_a?}
+    assert merchant_repository.all.all? {|merchant| merchant.is_a?(Merchant)}
     assert_equal "Shopin1901", merchant_repository.all.first.name
   end
 
