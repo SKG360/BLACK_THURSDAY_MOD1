@@ -1,7 +1,7 @@
 require 'CSV'
 
 class MerchantRepository
-  attr_reader :merchants
+  attr_accessor :merchants
 
   def initialize(filepath)
     @merchants = []
@@ -43,12 +43,16 @@ class MerchantRepository
 
   def update(id, attributes)
     @merchants.find do |merchant|
-
       if merchant.id == id
         merchant.name = attributes[:name]
       else
       end
     end
+  end
+
+  def delete(id)
+    merchant_to_delete = find_by_id(id)
+    @merchants.delete(merchant_to_delete)
   end
 
 
