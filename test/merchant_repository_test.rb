@@ -101,5 +101,4 @@ class MerchantRepositoryTest < Minitest::Test
     assert_nil merchant_repository.delete(3)
   end
 
-
 end
