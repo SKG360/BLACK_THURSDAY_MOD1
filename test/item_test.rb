@@ -2,7 +2,7 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require 'bigdecimal'
 require 'time'
-require './lib/item'
+require_relative './lib/item'
 
 class ItemTest < Minitest::Test
   def test_it_exists
