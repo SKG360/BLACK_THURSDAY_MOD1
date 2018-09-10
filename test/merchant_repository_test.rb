@@ -32,7 +32,7 @@ class MerchantRepositoryTest < Minitest::Test
     assert_equal "Candisart", actual.name
   end
 
-  def test_find_by_name_returns_nil
+  def test_find_by_id_returns_nil
     merchant_repository = MerchantRepository.new("./test/abridged_list/mini_merchant_list.csv")
 
     actual = merchant_repository.find_by_id(2345)
