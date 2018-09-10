@@ -17,5 +17,9 @@ class Item
     @merchant_id = data[:merchant_id].to_i
   end
 
+  def unit_price_to_dollars
+    price = @unit_price.to_f
+    "$#{price}"
+  end
 
 end
