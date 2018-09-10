@@ -1,7 +1,7 @@
 require 'rake/testtask'
 
-Rake::Testtask.new do |t|
-    t.pattern = "test?**/*_test.rb"
+Rake::TestTask.new do |t|
+    t.pattern = "test/**/*_test.rb"
   end
 
   task default: ["test"]
@@ -27,4 +27,4 @@ Rake::Testtask.new do |t|
 #
 #   desc "Check both line length and method length"
 #   task :all => [:lines, :methods]
-# end
+#end
