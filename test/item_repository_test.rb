@@ -64,11 +64,25 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_if_items_can_be_selected_by_price_range
-    skipr
     ir = ItemRepository.new("./data/items.csv")
-    range = (1_000.00..1_500.00)
-    assert_equal 20, ir.find_all_by_price_in_range(range)
+    range = (1000.00..1500.00)
+    assert_equal 19, ir.find_all_by_price_in_range(range)
 
+    range = (10.00..150.00)
+    assert_equal 910, ir.find_all_by_price_in_range(range)
+
+    range = (10.00..15.00)
+    assert_equal 212, ir.find_all_by_price_in_range(range)
+
+    range = (0..10.00)
+    assert_equal 303, ir.find_all_by_price_in_range(range)
+  end
+
+  def test_if_it_returns_merchants_by_id_in_array
+    skip
+    ir = ItemRepository.new("./data/items.csv")
+    merchant_id = 12334326
+    assert_equal 5, ir.find_all_by_merchant_id(merchant_id)
   end
 
 end
