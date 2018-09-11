@@ -79,10 +79,45 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_if_it_returns_merchants_by_id_in_array
-    skip
     ir = ItemRepository.new("./data/items.csv")
     merchant_id = 12334326
-    assert_equal 5, ir.find_all_by_merchant_id(merchant_id)
+    assert_equal 6, ir.find_all_by_merchant_id(merchant_id)
+  end
+
+  def test_it_can_create_new_items
+    ir = ItemRepository.new("./data/items.csv")
+    attributes = {
+      name: "Capita Defenders of Awesome 2018",
+      description: "This board both rips and shreds",
+      unit_price: BigDecimal.new(399.99, 5),
+      created_at: Time.now,
+      updated_at: Time.now,
+      merchant_id: 25
+    }
+    ir.create(attributes)
+    assert_equal 263567475, ir.ir[-1].id
+    assert_equal "Capita Defenders of Awesome 2018", ir.ir[-1].name
+    assert_equal 25, ir.ir[-1].merchant_id
+  end
+
+  def test_if_it_can_update_attributes
+    ir = ItemRepository.new("./data/items.csv")
+    attributes = {
+      name: "Capita Defenders of Awesome 2018",
+      description: "This board both rips and shreds",
+      unit_price: BigDecimal.new(399.99, 5),
+      created_at: Time.now,
+      updated_at: Time.now,
+      merchant_id: 25
+    }
+    ir.create(attributes)
+
+    attributes_2 = {
+      unit_price: BigDecimal.new(379.99, 5)
+    }
+    
+    ir.update(263567475, attributes_2)
+    assert_equal 379.99, ir.ir[-1].unit_price
   end
 
 end
