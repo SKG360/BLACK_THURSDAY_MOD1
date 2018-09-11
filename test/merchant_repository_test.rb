@@ -15,7 +15,6 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_merchant_repo_has_merchants
-
     merchant_repository = MerchantRepository.new("./test/abridged_list/mini_merchant_list.csv")
 
     assert_equal 4, merchant_repository.all.count
@@ -100,6 +99,5 @@ class MerchantRepositoryTest < Minitest::Test
 
     assert_nil merchant_repository.delete(3)
   end
-
 
 end

@@ -1,7 +1,7 @@
 require 'CSV'
 
 class MerchantRepository
-  attr_accessor :merchants
+  attr_accessor: merchants
 
   def initialize(filepath)
     @merchants = []
@@ -54,7 +54,4 @@ class MerchantRepository
     merchant_to_delete = find_by_id(id)
     @merchants.delete(merchant_to_delete)
   end
-
-
-
 end
