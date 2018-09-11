@@ -71,8 +71,14 @@ class ItemRepository
       item.name = attributes[:name]
       item.description = attributes[:description]
       item.unit_price = attributes[:unit_price].to_f
+      item.updated_at = Time.now
       end
     end
+  end
+
+  def delete(id)
+    item_to_delete = find_by_id(id)
+    @ir.delete(item_to_delete)
   end
 
 end

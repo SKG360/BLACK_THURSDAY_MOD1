@@ -100,7 +100,7 @@ class ItemRepositoryTest < Minitest::Test
     assert_equal 25, ir.ir[-1].merchant_id
   end
 
-  def test_if_it_can_update_attributes
+  def test_if_it_can_update_certain_attributes
     ir = ItemRepository.new("./data/items.csv")
     attributes = {
       name: "Capita Defenders of Awesome 2018",
@@ -113,11 +113,31 @@ class ItemRepositoryTest < Minitest::Test
     ir.create(attributes)
 
     attributes_2 = {
-      unit_price: BigDecimal.new(379.99, 5)
+      unit_price: BigDecimal.new(379.99, 5),
+      merchant_id: 3030
     }
-    
+
     ir.update(263567475, attributes_2)
     assert_equal 379.99, ir.ir[-1].unit_price
+    assert_equal 25, ir.ir[-1].merchant_id
+    refute_equal ir.ir[-1].updated_at, ir.ir[-1].created_at
   end
+
+  def test_if_an_item_can_be_deleted
+    ir = ItemRepository.new("./data/items.csv")
+    attributes = {
+      name: "Capita Defenders of Awesome 2018",
+      description: "This board both rips and shreds",
+      unit_price: BigDecimal.new(399.99, 5),
+      created_at: Time.now,
+      updated_at: Time.now,
+      merchant_id: 25
+    }
+    ir.create(attributes)
+
+    ir.delete(263567475)
+    refute_equal 263567475, ir.ir[-1].id
+  end
+
 
 end

@@ -1,10 +1,10 @@
 class Item
   attr_reader :id,
               :created_at,
-              :updated_at,
               :merchant_id
 
   attr_accessor :name,
+                :updated_at,
                 :description,
                 :unit_price
 
