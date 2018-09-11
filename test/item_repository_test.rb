@@ -52,6 +52,22 @@ class ItemRepositoryTest < Minitest::Test
 
     description = "Sales Engine is a relational database"
     assert_equal 0, ir.find_all_with_description(description).length
+  end
+
+  def test_if_it_can_find_all_items_by_price
+    ir = ItemRepository.new("./data/items.csv")
+    price = 1200
+    assert_equal 41, ir.find_all_by_price(price).length
+
+    price = 51_000
+    assert_equal 0, ir.find_all_by_price(price).length
+  end
+
+  def test_if_items_can_be_selected_by_price_range
+    skip
+    ir = ItemRepository.new("./data/items.csv")
+    range = (1_000.00..1_500.00)
+    assert_equal 20, ir.find_all_by_price_in_range(range)
 
   end
 

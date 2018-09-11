@@ -34,4 +34,16 @@ class ItemRepository
       item.description.downcase.include?(description.downcase)
     end
   end
+
+  def find_all_by_price(price)
+    @ir.find_all do |item|
+      item.unit_price.to_i == price
+    end
+  end
+
+  def find_all_by_price_in_range(range)
+    @ir.find_all do |item|
+      item.unit_price.to_i.cover?(range.to_a)
+    end
+  end
 end
