@@ -2,6 +2,8 @@ require 'CSV'
 require_relative 'item'
 
 class ItemRepository
+  attr_reader :ir
+
   def initialize(filepath)
     @ir = []
     load_items(filepath)
@@ -49,6 +51,28 @@ class ItemRepository
       end
     end
     range_agg.length
+  end
+
+  def find_all_by_merchant_id(merchant_id)
+    found_merchants = @ir.find_all do |item|
+      item.merchant_id == merchant_id
+    end
+    found_merchants.length
+  end
+
+  def create(attributes)
+    attributes[:id] = @ir[-1].id + 1
+    @ir << Item.new(attributes)
+  end
+
+  def update(id, attributes)
+    @ir.find do |item|
+      if item.id == id
+      item.name = attributes[:name]
+      item.description = attributes[:description]
+      item.unit_price = attributes[:unit_price].to_f
+      end
+    end
   end
 
 end
