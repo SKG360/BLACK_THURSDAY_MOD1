@@ -2,7 +2,7 @@ require 'CSV'
 require_relative 'merchant'
 
 class MerchantRepository
-  attr_accessor: merchants
+  attr_accessor :merchants
 
   def initialize(filepath)
     @merchants = []
