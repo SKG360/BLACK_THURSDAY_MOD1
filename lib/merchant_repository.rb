@@ -1,4 +1,5 @@
 require 'CSV'
+require_relative 'merchant'
 
 class MerchantRepository
   attr_accessor: merchants

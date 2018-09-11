@@ -64,7 +64,7 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_if_items_can_be_selected_by_price_range
-    skip
+    skipr
     ir = ItemRepository.new("./data/items.csv")
     range = (1_000.00..1_500.00)
     assert_equal 20, ir.find_all_by_price_in_range(range)
