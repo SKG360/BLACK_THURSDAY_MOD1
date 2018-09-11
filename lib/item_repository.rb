@@ -43,8 +43,12 @@ class ItemRepository
   end
 
   def find_all_by_price_in_range(range)
-    @ir.find_all do |item|
-      item.unit_price.to_i.cover?(range.to_a)
+    range_agg = @ir.find_all do |item|
+      if (range).include?(item.unit_price.to_i/100)
+        item
+      end
     end
+    range_agg.length
   end
+
 end
