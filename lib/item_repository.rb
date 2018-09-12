@@ -45,14 +45,13 @@ class ItemRepository
 
   def find_all_by_price(price)
     @ir.find_all do |item|
-      item.unit_price.to_i == price
+      item.unit_price == price
     end
   end
 
   def find_all_by_price_in_range(range)
     @ir.find_all do |item|
-      if (range).include?(item.unit_price.to_f)
-      end
+      range.include?(item.unit_price)
     end
   end
 
@@ -60,7 +59,6 @@ class ItemRepository
     found_merchants = @ir.find_all do |item|
       item.merchant_id == merchant_id
     end
-    found_merchants.length
   end
 
   def create(attributes)
@@ -69,15 +67,15 @@ class ItemRepository
   end
 
   def update(id, attributes)
-    found_item = @ir.find do |item|
-      if item.id == id
-        item.name = attributes[:name]
-        item.description = attributes[:description]
-        item.unit_price = attributes[:unit_price].to_f
-        item.updated_at = Time.now
-      end
-    end
-    found_item
+    item = find_by_id(id)
+    no_name = attributes[:name].nil?
+    no_description = attributes[:description].nil?
+    no_unit_price = attributes[:unit_price].nil?
+    item.name = attributes[:name] unless no_name
+    item.description = attributes[:description] unless no_description
+    item.unit_price = attributes[:unit_price].to_f unless no_unit_price
+    item.updated_at = Time.now unless no_name && no_description && no_unit_price
+    item
   end
 
   def delete(id)

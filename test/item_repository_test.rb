@@ -56,8 +56,9 @@ class ItemRepositoryTest < Minitest::Test
 
   def test_if_it_can_find_all_items_by_price
     ir = ItemRepository.new("./data/items.csv")
-    price = 1200
-    assert_equal 41, ir.find_all_by_price(price).length
+    price = 1200.00
+    found_by_price = ir.find_all_by_price(price)
+    assert_equal 41, found_by_price.count
 
     price = 51_000
     assert_equal 0, ir.find_all_by_price(price).length
@@ -65,23 +66,21 @@ class ItemRepositoryTest < Minitest::Test
 
   def test_if_items_can_be_selected_by_price_range
     ir = ItemRepository.new("./data/items.csv")
-    range = (1000.00..1500.00)
-    assert_equal 19, ir.find_all_by_price_in_range(range)
 
-    range = (10.00..150.00)
-    assert_equal 910, ir.find_all_by_price_in_range(range)
+    range_1 = (1000.00..1500.00)
+    test_1 = ir.find_all_by_price_in_range(range_1)
+    assert_equal 19, test_1.length
 
-    range = (10.00..15.00)
-    assert_equal 212, ir.find_all_by_price_in_range(range)
-
-    range = (0..10.00)
-    assert_equal 303, ir.find_all_by_price_in_range(range)
+    range_2 = (10.00..150.00)
+    test_2 = ir.find_all_by_price_in_range(range_2)
+    assert_equal 910, test_2.length
   end
 
   def test_if_it_returns_merchants_by_id_in_array
     ir = ItemRepository.new("./data/items.csv")
     merchant_id = 12334326
-    assert_equal 6, ir.find_all_by_merchant_id(merchant_id)
+    found_by_merchant = ir.find_all_by_merchant_id(merchant_id)
+    assert_equal 6, found_by_merchant.count
   end
 
   def test_it_can_create_new_items
