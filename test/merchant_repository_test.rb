@@ -97,7 +97,8 @@ class MerchantRepositoryTest < Minitest::Test
   def test_that_a_merchant_can_be_deleted
     merchant_repository = MerchantRepository.new("./test/abridged_list/mini_merchant_list.csv")
 
-    assert_nil merchant_repository.delete(3)
+    merchant_repository.delete(3)
+    assert_nil merchant_repository.find_by_id(3)
   end
 
 end
