@@ -1,4 +1,5 @@
 require 'CSV'
+require 'Time'
 require_relative 'item'
 
 class ItemRepository
@@ -7,6 +8,10 @@ class ItemRepository
   def initialize(filepath)
     @ir = []
     load_items(filepath)
+  end
+
+  def inspect
+      "#<#{self.class} #{@ir.size} rows>"
   end
 
   def load_items(filepath)
