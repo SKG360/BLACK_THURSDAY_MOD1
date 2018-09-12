@@ -15,4 +15,8 @@ class SalesEngine
     SalesEngine.new(items, merchants)
   end
 
+  def analyst
+    SalesAnalyst.new(self)
+  end
+
 end
