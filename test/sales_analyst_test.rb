@@ -74,7 +74,19 @@ class SalesAnalystTest < MiniTest::Test
     })
 
     sales_analyst = sales_engine.analyst
-    assert_equal ({}), sales_analyst.total_items_per_merchant
+
+    expected_1 = {12334185=>6, 12334105=>3, 12334609=>1, 12334112=>1, 12334113=>1,
+                  12334115=>1, 12334132=>3, 12334135=>1, 12334144=>1, 12334444=>1,
+                  12334145=>1, 12334149=>1, 12334155=>1, 12334159=>1, 12334160=>1,
+                  12334165=>2, 12334174=>2, 12334176=>1, 12334183=>1, 12334189=>4}
+    assert_equal expected_1, sales_analyst.total_items_per_merchant
+
+    expected_2 = [[12334185, 3.7], [12334105, 1.85], [12334132, 1.85],
+                  [12334165, 1.23], [12334174, 1.23], [12334189, 2.47]]
+    assert_equal expected_2, sales_analyst.total_items_divided_by_avg_item
+
+    assert_equal [12334185], sales_analyst.merchant_id_with_high_item_count
+
     assert_equal [], sales_analyst.merchants_with_high_item_count
   end
 end
