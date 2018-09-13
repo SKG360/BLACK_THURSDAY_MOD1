@@ -1,13 +1,16 @@
 require 'CSV'
 require 'Time'
 require_relative 'item'
+require_relative 'find_module'
 
 class ItemRepository
+  include FindObjects
   attr_reader :ir
 
   def initialize(filepath)
     @ir = []
     load_items(filepath)
+    @storage = @ir
   end
 
   def inspect
@@ -25,17 +28,17 @@ class ItemRepository
     @ir
   end
 
-  def find_by_id(id)
-    @ir.find do |item|
-      item.id == id
-    end
-  end
+#  def find_by_id(id)
+#    @ir.find do |item|
+#      item.id == id
+#    end
+#  end
 
-  def find_by_name(name)
-    @ir.find do |item|
-      item.name == name
-    end
-  end
+#  def find_by_name(name)
+#    @ir.find do |item|
+#      item.name == name
+#    end
+#  end
 
   def find_all_with_description(description)
     @ir.find_all do |item|
@@ -78,9 +81,9 @@ class ItemRepository
     item
   end
 
-  def delete(id)
-    item_to_delete = find_by_id(id)
-    @ir.delete(item_to_delete)
-  end
+#  def delete(id)
+#    item_to_delete = find_by_id(id)
+#    @ir.delete(item_to_delete)
+#  end
 
 end
