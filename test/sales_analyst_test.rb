@@ -52,21 +52,29 @@ class SalesAnalystTest < MiniTest::Test
     })
 
     sales_analyst = sales_engine.analyst
-    expected_1 = [11.38, 5.38, 28.37, 8.37, 8.37, 11.38, 13.38, 148.38, 18.38,
-                  33.38, 33.38, 33.38, 12.38, 13.37, 5.58, 23.38, 28.38, 11.38,
-                  5.38, 28.37, 8.37, 8.37, 11.38, 13.38, 148.38, 18.38, 33.38,
-                  33.38, 33.38, 12.38, 13.37, 5.58, 23.38, 28.38]
+    expected_1 = [4.38, 1.38, -0.62, -0.62, -0.62, -0.62, 1.38, -0.62, -0.62,
+                -0.62, -0.62, -0.62, -0.62, -0.62, -0.62, 0.38, 0.38, -0.62,
+                -0.62, 2.38]
     assert_equal expected_1, sales_analyst.difference_from_mean
 
-    expected_2 = [129.5, 28.94, 804.86, 70.06, 70.06, 129.5, 179.02, 22016.62,
-                  337.82, 1114.22, 1114.22, 1114.22, 153.26, 178.76, 31.14, 546.62,
-                  805.42, 129.5, 28.94, 804.86, 70.06, 70.06, 129.5, 179.02, 22016.62,
-                  337.82, 1114.22, 1114.22, 1114.22, 153.26, 178.76, 31.14, 546.62, 805.42]
+    expected_2 = [19.18, 1.9, 0.38, 0.38, 0.38, 0.38, 1.9, 0.38, 0.38, 0.38,
+                0.38, 0.38, 0.38, 0.38, 0.38, 0.14, 0.14, 0.38, 0.38, 5.66]
 
     assert_equal expected_2, sales_analyst.differences_squared
 
-    assert_equal 57648.48, sales_analyst.sum_of_squared_differences
-    assert_equal 1746.92, sales_analyst.divided_sum
-    assert_equal 41.8, sales_analyst.average_items_per_merchant_standard_deviation
+    assert_equal 34.24, sales_analyst.sum_of_squared_differences
+    assert_equal 1.04, sales_analyst.divided_sum
+    assert_equal 1.02, sales_analyst.average_items_per_merchant_standard_deviation
+  end
+
+  def test_that_it_returns_the_merchants_that_sell_the_most_items
+    sales_engine = SalesEngine.from_csv({
+    :items     => "./test/abridged_list/items_truncated.csv",
+    :merchants => "./test/abridged_list/merchants_truncated.csv",
+    })
+
+    sales_analyst = sales_engine.analyst
+    assert_equal ({}), sales_analyst.total_items_per_merchant
+    assert_equal [], sales_analyst.merchants_with_high_item_count
   end
 end

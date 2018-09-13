@@ -15,8 +15,8 @@ class SalesAnalyst
   end
 
   def difference_from_mean
-    @sales_engine.items.ir.map do |item|
-      (item.unit_price.to_f - average_items_per_merchant).round(2)
+    total_items_per_merchant.values.map do |value|
+      (value - average_items_per_merchant).round(2)
     end
   end
 
@@ -31,7 +31,7 @@ class SalesAnalyst
     differences_squared.each do |diff|
       diff_aggregator += diff
     end
-    diff_aggregator
+    diff_aggregator.round(2)
   end
 
   def divided_sum
@@ -42,4 +42,17 @@ class SalesAnalyst
     Math.sqrt(divided_sum).round(2)
   end
 
+  def total_items_per_merchant
+    @sales_engine.items.ir.reduce(Hash.new(0)) do |hash, item|
+      hash[item.merchant_id] += 1
+      hash
+    end
+  end
+
+  def merchants_with_high_item_count
+    # @sales_engine.items.ir.each do |item|
+    #   average_items_per_merchant
+    #   require "pry"; binding.pry
+    # end
+  end
 end
