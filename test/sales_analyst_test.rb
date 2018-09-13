@@ -101,6 +101,23 @@ class SalesAnalystTest < MiniTest::Test
 
     assert_equal [13.0, 7.0, 7.2, 20.0, 14.99, 7.2], sales_analyst.array_of_merch_items(12334185)
     assert_equal 69.39, sales_analyst.sum_of_merch_items_array(12334185)
-    assert_equal [], sales_analyst.average_item_price_for_merchant(12334185)
+    assert_equal 11.57, sales_analyst.average_item_price_for_merchant(12334185)
+  end
+
+  def test_it_makes_array_of_avg_item_prices
+    sales_engine = SalesEngine.from_csv({
+    :items     => "./test/abridged_list/items_truncated.csv",
+    :merchants => "./test/abridged_list/merchants_truncated.csv",
+    })
+
+    sales_analyst = sales_engine.analyst
+    expected_1 = [16.66, 15.0, 150.0, 20.0, 35.0, 14.0, 14.99, 30.0,
+                  25.0, 11.57, 13.0, 13.0, 7.0, 29.99, 9.99, 20.0, 19.0,
+                  15.0, 150.0, 11.57, 29.75]
+    assert_equal expected_1, sales_analyst.array_of_merchant_averages
+
+    assert_equal 650.52, sales_analyst.sum_of_averages
+    assert_equal 30.98, sales_analyst.average_average_price_per_merchant
+
   end
 end

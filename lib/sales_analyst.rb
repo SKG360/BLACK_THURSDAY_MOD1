@@ -93,8 +93,30 @@ class SalesAnalyst
 
   def average_item_price_for_merchant(merchant_id)
     num_of_items = array_of_merch_items(merchant_id).length
-    average = (sum_of_merch_items_array(merchant_id) / num_of_items).round(2)
+    average = (sum_of_merch_items_array(merchant_id) / num_of_items).round(3)
     BigDecimal.new(average, 4)
   end
+
+  def array_of_merchant_averages
+    @sales_engine.merchants.all.map do |merchant|
+      average_item_price_for_merchant(merchant.id)
+    end
+  end
+
+  def sum_of_averages
+    sum = 0
+    array_of_merchant_averages.each do |merch_avg|
+      sum += merch_avg
+    end
+    sum
+  end
+
+  def average_average_price_per_merchant
+    avg_avg = (sum_of_averages / array_of_merchant_averages.length).ceil(3)
+
+  end
+
+
+
 
 end
