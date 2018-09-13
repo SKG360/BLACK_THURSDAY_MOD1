@@ -1,22 +1,24 @@
 class SalesAnalyst
+
   def initialize(sales_engine)
     @sales_engine = sales_engine
   end
+
   def total_merchants
-    @sales_engine.merchants.all
+    @sales_engine.merchants.merchants.length
   end
 
   def total_items
-    @sales_engine.items.ir
+    @sales_engine.items.ir.length
   end
 
   def average_items_per_merchant
-    (total_items.length.to_f / total_merchants.length.to_f).round(2)
+    (total_items.to_f / total_merchants).round(2)
   end
 
   def difference_from_mean
     total_items_per_merchant.values.map do |value|
-      (value - average_items_per_merchant).round(2)
+      (average_items_per_merchant - value).round(2)
     end
   end
 
@@ -35,7 +37,7 @@ class SalesAnalyst
   end
 
   def divided_sum
-    (sum_of_squared_differences / (total_items.length - 1)).round(2)
+    (sum_of_squared_differences) / ((difference_from_mean.length.round(2)) - 1)
   end
 
   def average_items_per_merchant_standard_deviation
