@@ -1,3 +1,5 @@
+require_relative 'item_repository'
+
 class SalesAnalyst
 
   def initialize(sales_engine)
@@ -37,7 +39,7 @@ class SalesAnalyst
   end
 
   def divided_sum
-    (sum_of_squared_differences) / ((difference_from_mean.length.round(2)) - 1)
+    (sum_of_squared_differences / (difference_from_mean.length - 1)).round(2)
   end
 
   def average_items_per_merchant_standard_deviation
@@ -60,7 +62,7 @@ class SalesAnalyst
     end.compact
   end
 
-  def merchants_with_high_item_count
+  def merchants_with_high_item_count #returns duplicate merch objects
     merch_agg = []
     merchant_id_with_high_item_count.find_all do |merchant_id|
       @sales_engine.merchants.all.map do |merch|
@@ -71,4 +73,28 @@ class SalesAnalyst
     end
     merch_agg
   end
+
+  def array_of_merch_items(merchant_id)
+    found_merchants = @sales_engine.items.ir.find_all do |item|
+      item.merchant_id == merchant_id
+    end
+    found_merchants.map do |item|
+      item.unit_price.to_f
+    end
+  end
+
+  def sum_of_merch_items_array(merchant_id)
+    sum = 0
+    array_of_merch_items(merchant_id).each do |num|
+      sum += num
+    end
+    sum
+  end
+
+  def average_item_price_for_merchant(merchant_id)
+    num_of_items = array_of_merch_items(merchant_id).length
+    average = (sum_of_merch_items_array(merchant_id) / num_of_items).round(2)
+    BigDecimal.new(average, 4)
+  end
+
 end

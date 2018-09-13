@@ -75,10 +75,10 @@ class ItemRepositoryTest < Minitest::Test
     test_2 = ir.find_all_by_price_in_range(range_2)
     assert_equal 910, test_2.length
 
-    
+
   end
 
-  def test_if_it_returns_merchants_by_id_in_array
+  def test_that_it_returns_all_the_items_sold_by_merchant
     ir = ItemRepository.new("./data/items.csv")
     merchant_id = 12334326
     found_by_merchant = ir.find_all_by_merchant_id(merchant_id)
