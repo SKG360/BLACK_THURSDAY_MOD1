@@ -48,32 +48,27 @@ class SalesAnalyst
     @sales_engine.items.ir.reduce(Hash.new(0)) do |hash, item|
       hash[item.merchant_id] += 1
       hash
+
     end
   end
 
-  def total_items_divided_by_avg_item
-    total_items_per_merchant.map do |key, value|
-      if value > average_items_per_merchant_standard_deviation
-        [key, (value / average_items_per_merchant).round(2)]
-      end
-    end.compact
-  end
-
   def merchant_id_with_high_item_count
-    total_items_divided_by_avg_item.map do |merchant|
-      if merchant[1] > (average_items_per_merchant + average_items_per_merchant_standard_deviation)
-        merchant[0]
+    total_items_per_merchant.map do |merch, item|
+      if item > (average_items_per_merchant + average_items_per_merchant_standard_deviation)
+        merch
       end
     end.compact
   end
 
   def merchants_with_high_item_count
+    merch_agg = []
     merchant_id_with_high_item_count.find_all do |merchant_id|
       @sales_engine.merchants.all.map do |merch|
         if merch.id == merchant_id
-          return [merch]
+          merch_agg << merch
         end
       end
     end
+    merch_agg
   end
 end

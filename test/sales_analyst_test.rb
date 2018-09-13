@@ -21,7 +21,7 @@ class SalesAnalystTest < MiniTest::Test
     })
 
     sales_analyst = sales_engine.analyst
-    assert_equal 21, sales_analyst.total_merchants.length
+    assert_equal 21, sales_analyst.total_merchants
   end
 
   def test_it_returns_all_items
@@ -32,7 +32,7 @@ class SalesAnalystTest < MiniTest::Test
 
     sales_analyst = sales_engine.analyst
 
-    assert_equal 34, sales_analyst.total_items.length
+    assert_equal 34, sales_analyst.total_items
   end
 
   def test_that_it_returns_the_avg_item_per_merchant
@@ -52,9 +52,10 @@ class SalesAnalystTest < MiniTest::Test
     })
 
     sales_analyst = sales_engine.analyst
-    expected_1 = [4.38, 1.38, -0.62, -0.62, -0.62, -0.62, 1.38, -0.62, -0.62,
-                -0.62, -0.62, -0.62, -0.62, -0.62, -0.62, 0.38, 0.38, -0.62,
-                -0.62, 2.38]
+    expected_1 = [-4.38, -1.38, 0.62, 0.62, 0.62, 0.62, -1.38, 0.62,
+                  0.62, 0.62, 0.62, 0.62, 0.62, 0.62, 0.62, -0.38,
+                  -0.38, 0.62, 0.62, -2.38]
+
     assert_equal expected_1, sales_analyst.difference_from_mean
 
     expected_2 = [19.18, 1.9, 0.38, 0.38, 0.38, 0.38, 1.9, 0.38, 0.38, 0.38,
@@ -81,12 +82,24 @@ class SalesAnalystTest < MiniTest::Test
                   12334165=>2, 12334174=>2, 12334176=>1, 12334183=>1, 12334189=>4}
     assert_equal expected_1, sales_analyst.total_items_per_merchant
 
-    expected_2 = [[12334185, 3.7], [12334105, 1.85], [12334132, 1.85],
-                  [12334165, 1.23], [12334174, 1.23], [12334189, 2.47]]
-    assert_equal expected_2, sales_analyst.total_items_divided_by_avg_item
+    # expected_2 = [[12334185, 3.7], [12334105, 1.85], [12334132, 1.85],
+    #               [12334165, 1.23], [12334174, 1.23], [12334189, 2.47]]
+    # assert_equal expected_2, sales_analyst.total_items_divided_by_avg_item
 
-    assert_equal [12334185], sales_analyst.merchant_id_with_high_item_count
+    assert_equal [12334185, 12334105, 12334132, 12334189], sales_analyst.merchant_id_with_high_item_count
 
     assert_equal [], sales_analyst.merchants_with_high_item_count
+  end
+
+  def test_the_avg_item_price_per_merchant
+    skip
+    sales_engine = SalesEngine.from_csv({
+    :items     => "./test/abridged_list/items_truncated.csv",
+    :merchants => "./test/abridged_list/merchants_truncated.csv",
+    })
+
+    sales_analyst = sales_engine.analyst
+    assert_equal "Merhcant Name", sales_analyst.get_merch_for_avg_item_calc(12334159)
+    assert_equal [], sales_analyst.average_item_price_for_merchant(12334159)
   end
 end
