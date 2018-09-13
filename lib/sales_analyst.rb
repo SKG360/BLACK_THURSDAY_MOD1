@@ -1,22 +1,24 @@
 class SalesAnalyst
+
   def initialize(sales_engine)
     @sales_engine = sales_engine
   end
+
   def total_merchants
-    @sales_engine.merchants.all
+    @sales_engine.merchants.merchants.length
   end
 
   def total_items
-    @sales_engine.items.ir
+    @sales_engine.items.ir.length
   end
 
   def average_items_per_merchant
-    (total_items.length.to_f / total_merchants.length.to_f).round(2)
+    (total_items.to_f / total_merchants).round(2)
   end
 
   def difference_from_mean
     total_items_per_merchant.values.map do |value|
-      (value - average_items_per_merchant).round(2)
+      (average_items_per_merchant - value).round(2)
     end
   end
 
@@ -35,7 +37,7 @@ class SalesAnalyst
   end
 
   def divided_sum
-    (sum_of_squared_differences / (total_items.length - 1)).round(2)
+    (sum_of_squared_differences) / ((difference_from_mean.length.round(2)) - 1)
   end
 
   def average_items_per_merchant_standard_deviation
@@ -49,10 +51,25 @@ class SalesAnalyst
     end
   end
 
+  def sum_of_items
+    sum = 0
+    total_items_per_merchant.values.each do |value|
+      sum += value
+    end
+    sum
+  end
+
   def merchants_with_high_item_count
     # @sales_engine.items.ir.each do |item|
     #   average_items_per_merchant
     #   require "pry"; binding.pry
     # end
+    highest = total_items_per_merchant.find_all do |merchant|
+      merchant[1] >= (average_items_per_merchant.to_i + average_items_per_merchant_standard_deviation.round(2))
+    end
+
+    highest.map do |merchant|
+      @sales_engine.merchants.find_by_id(highest[0])
+    end
   end
 end
