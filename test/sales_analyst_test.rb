@@ -92,6 +92,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_the_avg_item_price_per_merchant
+    skip
     sales_engine = SalesEngine.from_csv({
     :items     => "./test/abridged_list/items_truncated.csv",
     :merchants => "./test/abridged_list/merchants_truncated.csv",
@@ -105,6 +106,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_it_makes_array_of_avg_item_prices
+    skip
     sales_engine = SalesEngine.from_csv({
     :items     => "./test/abridged_list/items_truncated.csv",
     :merchants => "./test/abridged_list/merchants_truncated.csv",
@@ -119,5 +121,17 @@ class SalesAnalystTest < MiniTest::Test
     assert_equal 650.52, sales_analyst.sum_of_averages
     assert_equal 30.98, sales_analyst.average_average_price_per_merchant
 
+  end
+
+  def test_if_it_returns_an_array_of_golden_items
+    sales_engine = SalesEngine.from_csv({
+    :items     => "./test/abridged_list/items_truncated.csv",
+    :merchants => "./test/abridged_list/merchants_truncated.csv",
+    })
+
+    sales_analyst = sales_engine.analyst
+    assert_equal 33.65, sales_analyst.two_standard_devs_above
+    assert sales_analyst.golden_items[0], Item
+    assert_equal 8, sales_analyst.golden_items.count
   end
 end

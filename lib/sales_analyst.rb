@@ -93,7 +93,7 @@ class SalesAnalyst
 
   def average_item_price_for_merchant(merchant_id)
     num_of_items = array_of_merch_items(merchant_id).length
-    average = (sum_of_merch_items_array(merchant_id) / num_of_items).round(3)
+    average = (sum_of_merch_items_array(merchant_id) / num_of_items).round(2)
     BigDecimal.new(average, 4)
   end
 
@@ -112,11 +112,21 @@ class SalesAnalyst
   end
 
   def average_average_price_per_merchant
-    avg_avg = (sum_of_averages / array_of_merchant_averages.length).ceil(3)
-
+    avg_avg = (sum_of_averages / array_of_merchant_averages.length).truncate(2)
   end
 
+  def two_standard_devs_above
+    two_stdevs = average_items_per_merchant_standard_deviation * 2
+    
+    return (average_average_price_per_merchant + two_stdevs).round(2)
+  end
 
+  def golden_items
+    price_floor = two_standard_devs_above
+    @sales_engine.items.ir.find_all do |item|
+      item.unit_price > price_floor
+    end
+  end
 
 
 end
