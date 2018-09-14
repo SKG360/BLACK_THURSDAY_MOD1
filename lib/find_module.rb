@@ -8,7 +8,7 @@ module FindObjects
 
   def find_by_name(name)
     @storage.find do |item|
-      item.name == name
+      item.name.downcase == name.downcase
     end
   end
 

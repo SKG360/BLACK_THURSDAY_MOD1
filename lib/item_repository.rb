@@ -19,9 +19,8 @@ class ItemRepository
 
   def load_items(filepath)
     data = CSV.foreach(filepath, headers: true, header_converters: :symbol) do |row|
-    @ir << Item.new(row)
+      @ir << Item.new(row)
     end
-
   end
 
   def all
