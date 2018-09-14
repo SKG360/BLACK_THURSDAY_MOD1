@@ -9,8 +9,8 @@ class ItemRepository
 
   def initialize(filepath)
     @ir = []
-    load_items(filepath)
     @storage = @ir
+    load_items(filepath)
   end
 
   def inspect
