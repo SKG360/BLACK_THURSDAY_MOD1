@@ -53,9 +53,12 @@ class InvoiceRepository
 
   def update(id, attributes)
     item = find_by_id(id)
-    item.status = attributes[:status]
-    item.updated_at = Time.now
-    item
+    if item.nil? 
+    else
+      item.status = attributes[:status]
+      item.updated_at = Time.now
+      item
+    end
   end
 
 
