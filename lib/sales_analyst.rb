@@ -115,11 +115,24 @@ class SalesAnalyst
   end
 
   def total_invoices
-    @sales_engine.invoices.all.length
+    @sales_engine.invoices.all
   end
 
   def average_invoices_per_merchant
-    (total_invoices.to_f / total_merchants).round(2)
+    (total_invoices.length.to_f / total_merchants).round(2)
+  end
+
+  def average_invoices_per_merchant_standard_deviation
+    average = average_invoices_per_merchant
+    collection = total_invoices_per_merchant.values
+    standard_deviation(average, collection)
+  end
+
+  def total_invoices_per_merchant
+    @sales_engine.invoices.invoices.reduce(Hash.new(0)) do |hash, item|
+      hash[item.merchant_id] += 1
+      hash
+    end
   end
 
 end
