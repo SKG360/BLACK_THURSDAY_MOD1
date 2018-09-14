@@ -67,7 +67,24 @@ class InvoiceRepositoryTest < Minitest::Test
     assert_equal 2839, se.invoices.find_all_by_status(:shipped).count
     assert_equal 1473, se.invoices.find_all_by_status(:pending).count
     assert_equal [], se.invoices.find_all_by_status(:sold)
+  end
 
+  def test_it_creates_a_new_invoice
+    se = SalesEngine.from_csv({
+    :items     => "./data/items.csv",
+    :merchants => "./data/merchants.csv",
+    :invoices => "./data/invoices.csv"})
+
+    attributes = {
+      :customer_id => 7,
+      :merchant_id => 8,
+      :status      => "pending",
+      :created_at  => Time.now,
+      :updated_at  => Time.now,
+    }
+    se.invoices.create(attributes)
+    assert_equal 4986, se.invoices.all[-1].id
+    assert_equal 7, se.invoices.all[-1].customer_id
   end
 
 end

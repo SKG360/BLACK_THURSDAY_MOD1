@@ -46,6 +46,11 @@ class InvoiceRepository
     end
   end
 
+  def create(attributes)
+    attributes[:id] = @invoices[-1].id + 1
+    @invoices << Invoice.new(attributes)
+  end
+
 
 
 end
