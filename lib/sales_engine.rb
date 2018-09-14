@@ -15,8 +15,8 @@ class SalesEngine
 
   def self.from_csv(hash_arg)
     SalesEngine.new({:item => ItemRepository.new(hash_arg[:items]),
-                      :merchant => MerchantRepository.new(hash_arg[:merchants]),
-                      :invoice => InvoiceRepository.new(hash_arg[:invoices])})
+                     :merchant => MerchantRepository.new(hash_arg[:merchants]),
+                     :invoice => InvoiceRepository.new(hash_arg[:invoices])})
   end
 
   def analyst

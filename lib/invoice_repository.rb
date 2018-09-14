@@ -10,8 +10,8 @@ class InvoiceRepository
 
   def initialize(filepath)
     @invoices = []
-    load_invoices(filepath)
     @storage = @invoices
+    load_invoices(filepath)
   end
 
   def inspect
@@ -27,4 +27,12 @@ class InvoiceRepository
   def all
     @invoices
   end
+
+  def find_all_by_customer_id(customer_id)
+    found_customers = @invoices.find_all do |invoice|
+      invoice.customer_id.to_i == customer_id
+    end
+    found_customers
+  end
+
 end
