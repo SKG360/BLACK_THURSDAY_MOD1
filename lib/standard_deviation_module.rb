@@ -1,4 +1,7 @@
+require_relative 'sum_module'
+
 module StandardDeviation
+  include SumOfCollection
 
   def standard_deviation(average, collection)
     difference_from_mean(average, collection)
@@ -23,12 +26,8 @@ module StandardDeviation
   end
 
   def sum_of_squared_differences(average, collection)
-    ds = differences_squared(average, collection)
-    diff_aggregator = 0
-    ds.each do |diff|
-      diff_aggregator += diff
-    end
-    diff_aggregator.round(2)
+    collection_of_things = differences_squared(average, collection)
+    sum_of_collection(collection_of_things)
   end
 
   def divided_sum(average, collection)

@@ -1,8 +1,10 @@
 require_relative 'item_repository'
 require_relative 'standard_deviation_module'
+require_relative 'sum_module'
 
 class SalesAnalyst
   include StandardDeviation
+  include SumOfCollection
 
   def initialize(sales_engine)
     @sales_engine = sales_engine
@@ -63,11 +65,8 @@ class SalesAnalyst
   end
 
   def sum_of_merch_items_array(merchant_id)
-    sum = 0
-    array_of_merch_items(merchant_id).each do |num|
-      sum += num
-    end
-    sum
+    collection_of_things = array_of_merch_items(merchant_id)
+    sum_of_collection(collection_of_things)
   end
 
   def average_item_price_for_merchant(merchant_id)
@@ -83,11 +82,8 @@ class SalesAnalyst
   end
 
   def sum_of_averages
-    sum = 0
-    array_of_merchant_averages.each do |merch_avg|
-      sum += merch_avg
-    end
-    sum
+    collection_of_things = array_of_merchant_averages
+    sum_of_collection(collection_of_things)
   end
 
   def average_average_price_per_merchant
