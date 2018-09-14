@@ -87,4 +87,22 @@ class InvoiceRepositoryTest < Minitest::Test
     assert_equal 7, se.invoices.all[-1].customer_id
   end
 
+  def test_it_can_update_an_invoice
+    se = SalesEngine.from_csv({
+    :items     => "./data/items.csv",
+    :merchants => "./data/merchants.csv",
+    :invoices => "./data/invoices.csv"})
+
+    attributes = {
+      status: :success,
+      merchant_id: 56787
+    }
+
+    se.invoices.update(5, attributes)
+    actual = se.invoices.find_by_id(5)
+    assert_equal :success, actual.status
+    assert_equal 12335311, actual.merchant_id
+  end
+
+
 end

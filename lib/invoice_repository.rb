@@ -51,6 +51,12 @@ class InvoiceRepository
     @invoices << Invoice.new(attributes)
   end
 
+  def update(id, attributes)
+    item = find_by_id(id)
+    item.status = attributes[:status]
+    item.updated_at = Time.now
+    item
+  end
 
 
 end
