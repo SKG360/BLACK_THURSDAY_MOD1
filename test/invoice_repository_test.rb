@@ -58,4 +58,16 @@ class InvoiceRepositoryTest < Minitest::Test
     assert_equal [], se.invoices.find_all_by_merchant_id(7654323)
   end
 
+  def test_it_can_find_all_by_status
+    se = SalesEngine.from_csv({
+    :items     => "./data/items.csv",
+    :merchants => "./data/merchants.csv",
+    :invoices => "./data/invoices.csv"})
+
+    assert_equal 2839, se.invoices.find_all_by_status(:shipped).count
+    assert_equal 1473, se.invoices.find_all_by_status(:pending).count
+    assert_equal [], se.invoices.find_all_by_status(:sold)
+
+  end
+
 end
