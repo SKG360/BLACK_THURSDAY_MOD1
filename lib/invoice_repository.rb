@@ -29,10 +29,16 @@ class InvoiceRepository
   end
 
   def find_all_by_customer_id(customer_id)
-    found_customers = @invoices.find_all do |invoice|
+    @invoices.find_all do |invoice|
       invoice.customer_id.to_i == customer_id
     end
-    found_customers
   end
+
+  def find_all_by_merchant_id(merchant_id)
+    @invoices.find_all do |invoice|
+      invoice.merchant_id.to_i == merchant_id
+    end
+  end
+
 
 end

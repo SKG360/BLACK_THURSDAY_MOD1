@@ -47,4 +47,15 @@ class InvoiceRepositoryTest < Minitest::Test
     assert_equal 10, se.invoices.find_all_by_customer_id(300).count
     assert_equal [], se.invoices.find_all_by_customer_id(678987)
   end
+
+  def test_it_can_find_all_by_merchant_id
+    se = SalesEngine.from_csv({
+    :items     => "./data/items.csv",
+    :merchants => "./data/merchants.csv",
+    :invoices => "./data/invoices.csv"})
+
+    assert_equal 7, se.invoices.find_all_by_merchant_id(12335080).count
+    assert_equal [], se.invoices.find_all_by_merchant_id(7654323)
+  end
+
 end
