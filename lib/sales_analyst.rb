@@ -23,12 +23,7 @@ class SalesAnalyst
   def average_items_per_merchant_standard_deviation
     collection = total_items_per_merchant.values
     average = average_items_per_merchant
-    difference_from_mean(average, collection)
-    differences_squared(average, collection)
-    sum_of_squared_differences(average, collection)
-    divided_sum(average, collection)
-    ds = divided_sum(average, collection)
-    Math.sqrt(ds).round(2)
+    standard_deviation(average, collection)
   end
 
   def total_items_per_merchant
@@ -108,12 +103,7 @@ class SalesAnalyst
   def average_price_standard_deviation
     collection = collection_of_unit_prices
     average = average_average_price_per_merchant.to_f
-    difference_from_mean(average, collection)
-    differences_squared(average, collection)
-    sum_of_squared_differences(average, collection)
-    divided_sum(average, collection)
-    ds = divided_sum(average, collection)
-    Math.sqrt(ds).round(2)
+    standard_deviation(average, collection)
   end
 
   def two_standard_devs_above

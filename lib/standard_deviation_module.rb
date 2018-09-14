@@ -1,5 +1,14 @@
 module StandardDeviation
 
+  def standard_deviation(average, collection)
+    difference_from_mean(average, collection)
+    differences_squared(average, collection)
+    sum_of_squared_differences(average, collection)
+    divided_sum(average, collection)
+    ds = divided_sum(average, collection)
+    Math.sqrt(ds).round(2)
+  end
+
   def difference_from_mean(average, collection)
     collection.map do |value|
       (average - value).round(2)
