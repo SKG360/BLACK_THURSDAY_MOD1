@@ -130,8 +130,8 @@ class SalesAnalystTest < MiniTest::Test
     })
 
     sales_analyst = sales_engine.analyst
-    assert_equal 33.65, sales_analyst.two_standard_devs_above
+    assert_equal 4.3, sales_analyst.two_standard_devs_above
     assert sales_analyst.golden_items[0], Item
-    assert_equal 8, sales_analyst.golden_items.count
+    assert_equal 8, sales_analyst.golden_items
   end
 end

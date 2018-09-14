@@ -1,6 +1,8 @@
 require_relative 'item_repository'
+require_relative 'standard_deviation_module'
 
 class SalesAnalyst
+  include StandardDeviation
 
   def initialize(sales_engine)
     @sales_engine = sales_engine
@@ -18,39 +20,16 @@ class SalesAnalyst
     (total_items.to_f / total_merchants).round(2)
   end
 
-  def difference_from_mean
-    total_items_per_merchant.values.map do |value|
-      (average_items_per_merchant - value).round(2)
-    end
-  end
-
-  def differences_squared
-    difference_from_mean.map do |difference|
-      (difference ** 2).round(2)
-    end
-  end
-
-  def sum_of_squared_differences
-    diff_aggregator = 0
-    differences_squared.each do |diff|
-      diff_aggregator += diff
-    end
-    diff_aggregator.round(2)
-  end
-
-  def divided_sum
-    (sum_of_squared_differences / (difference_from_mean.length - 1)).round(2)
-  end
-
   def average_items_per_merchant_standard_deviation
-    Math.sqrt(divided_sum).round(2)
+    collection = total_items_per_merchant.values
+    average = average_items_per_merchant
+    standard_deviation(average, collection)
   end
 
   def total_items_per_merchant
     @sales_engine.items.ir.reduce(Hash.new(0)) do |hash, item|
       hash[item.merchant_id] += 1
       hash
-
     end
   end
 
@@ -115,9 +94,20 @@ class SalesAnalyst
     avg_avg = (sum_of_averages / array_of_merchant_averages.length).truncate(2)
   end
 
+  def collection_of_unit_prices
+    @sales_engine.items.ir.map do |item|
+      item.unit_price.to_f
+    end
+  end
+
+  def average_price_standard_deviation
+    collection = collection_of_unit_prices
+    average = average_average_price_per_merchant.to_f
+    standard_deviation(average, collection)
+  end
+
   def two_standard_devs_above
-    two_stdevs = average_items_per_merchant_standard_deviation * 2
-    
+    two_stdevs = average_price_standard_deviation * 2
     return (average_average_price_per_merchant + two_stdevs).round(2)
   end
 
