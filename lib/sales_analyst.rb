@@ -3,11 +3,13 @@ require_relative 'item_repository'
 require_relative 'modules/standard_deviation_module'
 require_relative 'modules/sum_module'
 require_relative 'modules/sales_analyst_helper_methods_module'
+require_relative 'modules/totals_module'
 
 class SalesAnalyst
   include StandardDeviation
   include SumOfCollection
   include SAHelper
+  include Totals
 
   def initialize(sales_engine)
     @sales_engine = sales_engine
@@ -79,13 +81,6 @@ class SalesAnalyst
     over_one_stdev = standard_deviation_of_invoices_per_day + average_invoices_per_day
     total_invoices_per_day_hash.keys.find_all do |day_key|
       total_invoices_per_day_hash[day_key] > over_one_stdev
-    end
-  end
-
-  def invoice_status_hash
-    @sales_engine.invoices.storage.reduce(Hash.new(0)) do |hash, item|
-      hash[item.status] += 1
-      hash
     end
   end
 
