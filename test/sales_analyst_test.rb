@@ -9,7 +9,8 @@ class SalesAnalystTest < MiniTest::Test
     sales_engine = SalesEngine.from_csv({
       :items     => './data/items.csv',
       :merchants => './data/merchants.csv',
-      :invoices => './data/invoices.csv'})
+      :invoices  => './data/invoices.csv'
+    })
 
     assert_instance_of SalesAnalyst, sales_engine.analyst
   end
@@ -18,7 +19,8 @@ class SalesAnalystTest < MiniTest::Test
     sales_engine = SalesEngine.from_csv({
       :items     => './data/items.csv',
       :merchants => './data/merchants.csv',
-      :invoices => './data/invoices.csv'})
+      :invoices  => './data/invoices.csv'
+    })
 
     sales_analyst = sales_engine.analyst
 
@@ -29,7 +31,8 @@ class SalesAnalystTest < MiniTest::Test
     sales_engine = SalesEngine.from_csv({
       :items     => './data/items.csv',
       :merchants => './data/merchants.csv',
-      :invoices => './data/invoices.csv'})
+      :invoices  => './data/invoices.csv'
+    })
 
     sales_analyst = sales_engine.analyst
 
@@ -40,7 +43,8 @@ class SalesAnalystTest < MiniTest::Test
     sales_engine = SalesEngine.from_csv({
       :items     => './data/items.csv',
       :merchants => './data/merchants.csv',
-      :invoices => './data/invoices.csv'})
+      :invoices  => './data/invoices.csv'
+    })
 
     sales_analyst = sales_engine.analyst
 
@@ -51,18 +55,21 @@ class SalesAnalystTest < MiniTest::Test
     sales_engine = SalesEngine.from_csv({
       :items     => './data/items.csv',
       :merchants => './data/merchants.csv',
-      :invoices => './data/invoices.csv'})
+      :invoices  => './data/invoices.csv'
+    })
 
     sales_analyst = sales_engine.analyst
 
-    assert_equal 3.26, sales_analyst.average_items_per_merchant_standard_deviation
+    actual = sales_analyst.average_items_per_merchant_standard_deviation
+    assert_equal 3.26, actual
   end
 
   def test_that_it_returns_the_merchants_that_sell_the_most_items
     sales_engine = SalesEngine.from_csv({
     :items     => './data/items.csv',
     :merchants => './data/merchants.csv',
-    :invoices => './data/invoices.csv'})
+    :invoices  => './data/invoices.csv'
+  })
 
     sales_analyst = sales_engine.analyst
 
@@ -75,7 +82,8 @@ class SalesAnalystTest < MiniTest::Test
     sales_engine = SalesEngine.from_csv({
       :items     => './data/items.csv',
       :merchants => './data/merchants.csv',
-      :invoices => './data/invoices.csv'})
+      :invoices  => './data/invoices.csv'
+    })
 
     sales_analyst = sales_engine.analyst
 
@@ -87,7 +95,8 @@ class SalesAnalystTest < MiniTest::Test
     sales_engine = SalesEngine.from_csv({
       :items     => './data/items.csv',
       :merchants => './data/merchants.csv',
-      :invoices => './data/invoices.csv'})
+      :invoices  => './data/invoices.csv'
+    })
 
     sales_analyst = sales_engine.analyst
 
@@ -100,7 +109,8 @@ class SalesAnalystTest < MiniTest::Test
     sales_engine = SalesEngine.from_csv({
       :items     => './data/items.csv',
       :merchants => './data/merchants.csv',
-      :invoices => './data/invoices.csv'})
+      :invoices  => './data/invoices.csv'
+    })
 
     sales_analyst = sales_engine.analyst
 
@@ -113,7 +123,8 @@ class SalesAnalystTest < MiniTest::Test
     sales_engine = SalesEngine.from_csv({
       :items     => './data/items.csv',
       :merchants => './data/merchants.csv',
-      :invoices => './data/invoices.csv'})
+      :invoices  => './data/invoices.csv'
+    })
 
     sales_analyst = sales_engine.analyst
 
@@ -125,18 +136,21 @@ class SalesAnalystTest < MiniTest::Test
     sales_engine = SalesEngine.from_csv({
       :items     => './data/items.csv',
       :merchants => './data/merchants.csv',
-      :invoices => './data/invoices.csv'})
+      :invoices  => './data/invoices.csv'
+    })
 
     sales_analyst = sales_engine.analyst
 
-    assert_equal 3.29, sales_analyst.average_invoices_per_merchant_standard_deviation
+    actual = sales_analyst.average_invoices_per_merchant_standard_deviation
+    assert_equal 3.29, actual
   end
 
   def test_it_can_find_total_invoices_per_merchant
     sales_engine = SalesEngine.from_csv({
       :items     => './data/items.csv',
       :merchants => './data/merchants.csv',
-      :invoices => './data/invoices.csv'})
+      :invoices  => './data/invoices.csv'
+    })
 
     sales_analyst = sales_engine.analyst
 
@@ -147,7 +161,8 @@ class SalesAnalystTest < MiniTest::Test
     sales_engine = SalesEngine.from_csv({
       :items     => './data/items.csv',
       :merchants => './data/merchants.csv',
-      :invoices => './data/invoices.csv'})
+      :invoices  => './data/invoices.csv'
+    })
 
     sales_analyst = sales_engine.analyst
 
@@ -158,18 +173,21 @@ class SalesAnalystTest < MiniTest::Test
     sales_engine = SalesEngine.from_csv({
       :items     => './data/items.csv',
       :merchants => './data/merchants.csv',
-      :invoices => './data/invoices.csv'})
+      :invoices  => './data/invoices.csv'
+    })
 
     sales_analyst = sales_engine.analyst
 
-    assert_equal 12, sales_analyst.top_merchants_by_invoice_count_merchant_ids.count
+    actual = sales_analyst.top_merchants_by_invoice_count_merchant_ids.count
+    assert_equal 12, actual
   end
 
   def test_it_can_return_top_merchants
     sales_engine = SalesEngine.from_csv({
       :items     => './data/items.csv',
       :merchants => './data/merchants.csv',
-      :invoices => './data/invoices.csv'})
+      :invoices  => './data/invoices.csv'
+    })
 
     sales_analyst = sales_engine.analyst
 
@@ -180,18 +198,21 @@ class SalesAnalystTest < MiniTest::Test
     sales_engine = SalesEngine.from_csv({
       :items     => './data/items.csv',
       :merchants => './data/merchants.csv',
-      :invoices => './data/invoices.csv'})
+      :invoices  => './data/invoices.csv'
+    })
 
     sales_analyst = sales_engine.analyst
 
-    assert_equal 4, sales_analyst.bottom_merchants_by_invoice_count_merchant_ids.count
+    actual = sales_analyst.bottom_merchants_by_invoice_count_merchant_ids.count
+    assert_equal 4, actual
   end
 
   def test_it_can_return_bottom_merchants
     sales_engine = SalesEngine.from_csv({
       :items     => './data/items.csv',
       :merchants => './data/merchants.csv',
-      :invoices => './data/invoices.csv'})
+      :invoices  => './data/invoices.csv'
+    })
 
     sales_analyst = sales_engine.analyst
 
