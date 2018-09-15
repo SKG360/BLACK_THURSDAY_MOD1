@@ -14,7 +14,7 @@ class ItemRepository
   end
 
   def inspect
-      "#<#{self.class} #{@storage.size} rows>"
+    "#<#{self.class} #{@storage.size} rows>"
   end
 
   def load_items(filepath)

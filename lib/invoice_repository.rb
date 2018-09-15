@@ -20,7 +20,7 @@ class InvoiceRepository
 
   def load_invoices(filepath)
     CSV.foreach(filepath, headers: true, header_converters: :symbol) do |row|
-    @storage << Invoice.new(row)
+      @storage << Invoice.new(row)
     end
   end
 
