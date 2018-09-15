@@ -240,4 +240,5 @@ class SalesAnalystTest < MiniTest::Test
     assert_equal 56.95, sales_analyst.invoice_status(:shipped)
     assert_equal 13.5, sales_analyst.invoice_status(:returned)
   end
+
 end

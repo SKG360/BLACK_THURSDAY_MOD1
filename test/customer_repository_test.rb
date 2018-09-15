@@ -156,7 +156,5 @@ class CustomerRepositoryTest < Minitest::Test
     customer.delete(1001)
 
     assert_nil customer.find_by_id(1001)
-    
   end
-
 end
