@@ -1,7 +1,7 @@
 require 'time'
 require_relative 'item_repository'
-require_relative 'standard_deviation_module'
-require_relative 'sum_module'
+require_relative 'modules/standard_deviation_module'
+require_relative 'modules/sum_module'
 
 class SalesAnalyst
   include StandardDeviation
@@ -12,11 +12,11 @@ class SalesAnalyst
   end
 
   def total_merchants
-    @sales_engine.merchants.merchants.length
+    @sales_engine.merchants.storage.length
   end
 
   def total_items
-    @sales_engine.items.ir.length
+    @sales_engine.items.storage.length
   end
 
   def average_items_per_merchant
@@ -30,7 +30,7 @@ class SalesAnalyst
   end
 
   def total_items_per_merchant
-    @sales_engine.items.ir.reduce(Hash.new(0)) do |hash, item|
+    @sales_engine.items.storage.reduce(Hash.new(0)) do |hash, item|
       hash[item.merchant_id] += 1
       hash
     end
@@ -57,7 +57,7 @@ class SalesAnalyst
   end
 
   def array_of_merch_items(merchant_id)
-    found_merchants = @sales_engine.items.ir.find_all do |item|
+    found_merchants = @sales_engine.items.storage.find_all do |item|
       item.merchant_id == merchant_id
     end
     found_merchants.map do |item|
@@ -92,7 +92,7 @@ class SalesAnalyst
   end
 
   def collection_of_unit_prices
-    @sales_engine.items.ir.map do |item|
+    @sales_engine.items.storage.map do |item|
       item.unit_price.to_f
     end
   end
@@ -110,7 +110,7 @@ class SalesAnalyst
 
   def golden_items
     price_floor = two_standard_devs_above
-    @sales_engine.items.ir.find_all do |item|
+    @sales_engine.items.storage.find_all do |item|
       item.unit_price > price_floor
     end
   end
@@ -130,7 +130,7 @@ class SalesAnalyst
   end
 
   def total_invoices_per_merchant
-    @sales_engine.invoices.invoices.reduce(Hash.new(0)) do |hash, item|
+    @sales_engine.invoices.storage.reduce(Hash.new(0)) do |hash, item|
       hash[item.merchant_id] += 1
       hash
     end
@@ -165,7 +165,7 @@ class SalesAnalyst
   end
 
   def total_invoices_per_day_hash
-    @sales_engine.invoices.invoices.reduce(Hash.new(0)) do |hash, item|
+    @sales_engine.invoices.storage.reduce(Hash.new(0)) do |hash, item|
       time = item.created_at.strftime("%A")
       hash[time] += 1
       hash
@@ -190,7 +190,7 @@ class SalesAnalyst
   end
 
   def invoice_status_hash
-    @sales_engine.invoices.invoices.reduce(Hash.new(0)) do |hash, item|
+    @sales_engine.invoices.storage.reduce(Hash.new(0)) do |hash, item|
       hash[item.status] += 1
       hash
     end

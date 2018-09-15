@@ -1,49 +1,39 @@
 require 'CSV'
 require_relative 'merchant'
-require_relative 'find_module'
+require_relative 'modules/find_module'
 
 class MerchantRepository
   include FindObjects
-  attr_accessor :merchants
+  attr_reader :storage
 
   def initialize(filepath)
-    @merchants = []
+    @storage = []
     load_merchants(filepath)
-    @storage = @merchants
+    @object_class = Merchant
   end
 
   def inspect
-      "#<#{self.class} #{@merchants.size} rows>"
-  end
-
-  def all
-    @merchants
+    "#<#{self.class} #{@storage.size} rows>"
   end
 
   def load_merchants(filepath)
     data = CSV.foreach(filepath, headers: true, header_converters: :symbol) do |row|
-      @merchants << Merchant.new(row)
+      @storage << Merchant.new(row)
     end
   end
 
   def find_all_by_name(name)
-    @merchants.find_all do |merchant|
+    @storage.find_all do |merchant|
       merchant.name.downcase.include?(name.downcase)
     end
   end
 
-  def create(attributes)
-    attributes[:id] = @merchants[-1].id + 1
-    @merchants << Merchant.new(attributes)
-  end
-
   def update(id, attributes)
-    @merchants.find do |merchant|
+    @storage.find do |merchant|
       if merchant.id == id
         merchant.name = attributes[:name]
       else
       end
     end
   end
-
 end

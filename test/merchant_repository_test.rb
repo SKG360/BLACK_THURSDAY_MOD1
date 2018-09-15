@@ -74,8 +74,8 @@ class MerchantRepositoryTest < Minitest::Test
 
     merchant_repository.create(attributes)
 
-    assert_equal "Jenn", merchant_repository.merchants[-1].name
-    assert_equal 5, merchant_repository.merchants[-1].id
+    assert_equal "Jenn", merchant_repository.storage[-1].name
+    assert_equal 5, merchant_repository.storage[-1].id
   end
 
   def test_that_only_the_merchant_name_can_be_updated
@@ -87,13 +87,13 @@ class MerchantRepositoryTest < Minitest::Test
 
     merchant_repository.update(id, attributes_1)
 
-    assert_equal "Rocky", merchant_repository.merchants[-1].name
-    assert_equal 4, merchant_repository.merchants[-1].id
+    assert_equal "Rocky", merchant_repository.storage[-1].name
+    assert_equal 4, merchant_repository.storage[-1].id
 
     merchant_repository.update(id, attributes_2)
 
-    assert_equal "LolaMarleys", merchant_repository.merchants[-1].name
-    assert_equal 4, merchant_repository.merchants[-1].id
+    assert_equal "LolaMarleys", merchant_repository.storage[-1].name
+    assert_equal 4, merchant_repository.storage[-1].id
   end
 
   def test_that_a_merchant_can_be_deleted
