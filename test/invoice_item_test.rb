@@ -68,4 +68,18 @@ class InvoiceItemTest < Minitest::Test
     assert_instance_of Time, ii.updated_at
   end
 
+  def test_the_unit_price_conversion_to_float
+    ii = InvoiceItem.new({
+      :id => 6,
+      :item_id => 7,
+      :invoice_id => 8,
+      :quantity => 1,
+      :unit_price => BigDecimal.new(10.99, 4),
+      :created_at => Time.now,
+      :updated_at => Time.now
+      })
+
+    assert_equal 10.99, ii.unit_price_to_dollars
+  end
+
 end
