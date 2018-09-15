@@ -141,13 +141,25 @@ class SalesAnalyst
   end
 
   def top_merchants_by_invoice_count_merchant_ids
-    top_merchants = total_invoices_per_merchant.keys.find_all do |merchant_id|
+    total_invoices_per_merchant.keys.find_all do |merchant_id|
       total_invoices_per_merchant[merchant_id] > (two_standard_deviations + average_invoices_per_merchant)
     end
   end
 
   def top_merchants_by_invoice_count
     top_merchants_by_invoice_count_merchant_ids.map do |merchant_id|
+      @sales_engine.merchants.find_by_id(merchant_id)
+    end
+  end
+
+  def bottom_merchants_by_invoice_count_merchant_ids
+    total_invoices_per_merchant.keys.find_all do |merchant_id|
+      total_invoices_per_merchant[merchant_id] < (average_invoices_per_merchant - two_standard_deviations)
+    end
+  end
+
+  def bottom_merchants_by_invoice_count
+    bottom_merchants_by_invoice_count_merchant_ids.map do |merchant_id|
       @sales_engine.merchants.find_by_id(merchant_id)
     end
   end
