@@ -1,12 +1,13 @@
 class Customer
   attr_reader :id,
-              :first_name,
-              :last_name,
-              :created_at,
-              :updated_at
-              
+              :created_at
+
+  attr_accessor :first_name,
+                :last_name,
+                :updated_at
+                
   def initialize(data)
-    @id = data[:id]
+    @id = data[:id].to_i
     @first_name = data[:first_name]
     @last_name = data[:last_name]
     @created_at  = Time.parse(data[:created_at].to_s)
