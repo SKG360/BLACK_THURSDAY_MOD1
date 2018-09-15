@@ -2,7 +2,6 @@ module FindObjects
 
   def find_by_id(id)
     @storage.find do |stored_item|
-      
       stored_item.id == id
     end
   end

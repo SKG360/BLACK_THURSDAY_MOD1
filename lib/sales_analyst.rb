@@ -140,12 +140,15 @@ class SalesAnalyst
     average_invoices_per_merchant_standard_deviation * 2
   end
 
-  def top_merchants_by_invoice_count
+  def top_merchants_by_invoice_count_merchant_ids
     top_merchants = total_invoices_per_merchant.keys.find_all do |merchant_id|
-      if total_invoices_per_merchant[merchant_id] > (two_standard_deviations + average_invoices_per_merchant)
-      merchant_id = @sales_engine.merchants[:id]
-      require "pry"; binding.pry
-      end
+      total_invoices_per_merchant[merchant_id] > (two_standard_deviations + average_invoices_per_merchant)
+    end
+  end
+
+  def top_merchants_by_invoice_count
+    top_merchants_by_invoice_count_merchant_ids.map do |merchant_id|
+      @sales_engine.merchants.find_by_id(merchant_id)
     end
   end
 
