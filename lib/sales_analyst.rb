@@ -2,6 +2,7 @@ require_relative 'item_repository'
 require_relative 'standard_deviation_module'
 require_relative 'sum_module'
 
+
 class SalesAnalyst
   include StandardDeviation
   include SumOfCollection
@@ -114,5 +115,38 @@ class SalesAnalyst
     end
   end
 
+  def total_invoices
+    @sales_engine.invoices.all
+  end
+
+  def average_invoices_per_merchant
+    (total_invoices.length.to_f / total_merchants).round(2)
+  end
+
+  def average_invoices_per_merchant_standard_deviation
+    average = average_invoices_per_merchant
+    collection = total_invoices_per_merchant.values
+    standard_deviation(average, collection)
+  end
+
+  def total_invoices_per_merchant
+    @sales_engine.invoices.invoices.reduce(Hash.new(0)) do |hash, item|
+      hash[item.merchant_id] += 1
+      hash
+    end
+  end
+
+  def two_standard_deviations
+    average_invoices_per_merchant_standard_deviation * 2
+  end
+
+  def top_merchants_by_invoice_count
+    top_merchants = total_invoices_per_merchant.keys.find_all do |merchant_id|
+      if total_invoices_per_merchant[merchant_id] > (two_standard_deviations + average_invoices_per_merchant)
+      merchant_id = @sales_engine.merchants[:id]
+      require "pry"; binding.pry
+      end
+    end
+  end
 
 end
