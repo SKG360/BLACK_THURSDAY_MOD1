@@ -188,4 +188,17 @@ class SalesAnalyst
       total_invoices_per_day_hash[day_key] > over_one_stdev
     end
   end
+
+  def invoice_status_hash
+    @sales_engine.invoices.invoices.reduce(Hash.new(0)) do |hash, item|
+      hash[item.status] += 1
+      hash
+    end
+  end
+
+  def invoice_status(status)
+    amt_invoices = invoice_status_hash[status]
+    total = total_invoices.count
+    ((amt_invoices.to_f / total) * 100).round(2)
+  end
 end
