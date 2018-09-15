@@ -68,7 +68,7 @@ class InventoryTest < Minitest::Test
       :updated_at  => Time.now,
       })
 
-    assert_equal "pending", i.status
+    assert_equal :pending, i.status
   end
 
   def test_it_returns_the_time_it_was_created

@@ -76,8 +76,6 @@ class ItemRepositoryTest < Minitest::Test
     range_2 = (10.00..150.00)
     test_2 = ir.find_all_by_price_in_range(range_2)
     assert_equal 910, test_2.length
-
-
   end
 
   def test_that_it_returns_all_the_items_sold_by_merchant
@@ -98,9 +96,9 @@ class ItemRepositoryTest < Minitest::Test
       merchant_id: 25
     }
     ir.create(attributes)
-    assert_equal 263567475, ir.ir[-1].id
-    assert_equal "Capita Defenders of Awesome 2018", ir.ir[-1].name
-    assert_equal 25, ir.ir[-1].merchant_id
+    assert_equal 263567475, ir.storage[-1].id
+    assert_equal "Capita Defenders of Awesome 2018", ir.storage[-1].name
+    assert_equal 25, ir.storage[-1].merchant_id
   end
 
   def test_if_it_can_update_certain_attributes
@@ -121,9 +119,9 @@ class ItemRepositoryTest < Minitest::Test
     }
 
     ir.update(263567475, attributes_2)
-    assert_equal 379.99, ir.ir[-1].unit_price
-    assert_equal 25, ir.ir[-1].merchant_id
-    refute_equal ir.ir[-1].updated_at, ir.ir[-1].created_at
+    assert_equal 379.99, ir.storage[-1].unit_price
+    assert_equal 25, ir.storage[-1].merchant_id
+    refute_equal ir.storage[-1].updated_at, ir.storage[-1].created_at
   end
 
   def test_if_an_item_can_be_deleted
@@ -139,8 +137,6 @@ class ItemRepositoryTest < Minitest::Test
     ir.create(attributes)
 
     ir.delete(263567475)
-    refute_equal 263567475, ir.ir[-1].id
+    refute_equal 263567475, ir.storage[-1].id
   end
-
-
 end

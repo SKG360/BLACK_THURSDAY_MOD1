@@ -1,71 +1,44 @@
 require 'CSV'
 require 'Time'
 require_relative 'item'
-require_relative 'find_module'
+require_relative 'modules/find_module'
 
 class ItemRepository
   include FindObjects
-  attr_reader :ir
+  attr_reader :storage
 
   def initialize(filepath)
-    @ir = []
-    @storage = @ir
+    @storage = []
     load_items(filepath)
+    @object_class = Item
   end
 
   def inspect
-      "#<#{self.class} #{@ir.size} rows>"
+    "#<#{self.class} #{@storage.size} rows>"
   end
 
   def load_items(filepath)
     data = CSV.foreach(filepath, headers: true, header_converters: :symbol) do |row|
-      @ir << Item.new(row)
+      @storage << Item.new(row)
     end
   end
 
-  def all
-    @ir
-  end
-
-#  def find_by_id(id)
-#    @ir.find do |item|
-#      item.id == id
-#    end
-#  end
-
-#  def find_by_name(name)
-#    @ir.find do |item|
-#      item.name == name
-#    end
-#  end
-
   def find_all_with_description(description)
-    @ir.find_all do |item|
+    @storage.find_all do |item|
       item.description.downcase.include?(description.downcase)
     end
   end
 
   def find_all_by_price(price)
-    @ir.find_all do |item|
+    @storage.find_all do |item|
       item.unit_price == price
     end
   end
 
   def find_all_by_price_in_range(range)
-    @ir.find_all do |item|
+    @storage.find_all do |item|
       range.include?(item.unit_price)
     end
-  end
-
-  def find_all_by_merchant_id(merchant_id)
-    found_merchants = @ir.find_all do |item|
-      item.merchant_id == merchant_id
-    end
-  end
-
-  def create(attributes)
-    attributes[:id] = @ir[-1].id + 1
-    @ir << Item.new(attributes)
   end
 
   def update(id, attributes)
@@ -79,10 +52,4 @@ class ItemRepository
     item.updated_at = Time.now unless no_name && no_description && no_unit_price
     item
   end
-
-#  def delete(id)
-#    item_to_delete = find_by_id(id)
-#    @ir.delete(item_to_delete)
-#  end
-
 end
