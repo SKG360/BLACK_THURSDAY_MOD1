@@ -1,6 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'bigdecimal'
+require 'time'
 require './lib/sales_engine'
 require './lib/sales_analyst'
 
@@ -194,19 +195,6 @@ class SalesAnalystTest < MiniTest::Test
     assert_equal 12, sales_analyst.top_merchants_by_invoice_count.count
   end
 
-  def test_it_can_return_bottom_merchants_merchant_ids
-    sales_engine = SalesEngine.from_csv({
-      :items     => './data/items.csv',
-      :merchants => './data/merchants.csv',
-      :invoices  => './data/invoices.csv'
-    })
-
-    sales_analyst = sales_engine.analyst
-
-    actual = sales_analyst.bottom_merchants_by_invoice_count_merchant_ids.count
-    assert_equal 4, actual
-  end
-
   def test_it_can_return_bottom_merchants
     sales_engine = SalesEngine.from_csv({
       :items     => './data/items.csv',
@@ -216,6 +204,26 @@ class SalesAnalystTest < MiniTest::Test
 
     sales_analyst = sales_engine.analyst
 
+    actual = sales_analyst.bottom_merchants_by_invoice_count_merchant_ids
+    assert_instance_of Array, actual
     assert_equal 4, sales_analyst.bottom_merchants_by_invoice_count.count
+  end
+
+  def test_it_can_calculate_top_days_by_invoice_count
+    sales_engine = SalesEngine.from_csv({
+      :items     => './data/items.csv',
+      :merchants => './data/merchants.csv',
+      :invoices  => './data/invoices.csv'
+    })
+
+    sales_analyst = sales_engine.analyst
+
+    expected = {"Saturday"=>729, "Friday"=>701, "Wednesday"=>741,
+                "Monday"=>696, "Sunday"=>708, "Tuesday"=>692, "Thursday"=>718}
+    assert_equal expected, sales_analyst.total_invoices_per_day_hash
+
+    assert_equal 712, sales_analyst.average_invoices_per_day
+    assert_equal 18.07, sales_analyst.standard_deviation_of_invoices_per_day
+    assert_equal ["Wednesday"], sales_analyst.top_days_by_invoice_count
   end
 end

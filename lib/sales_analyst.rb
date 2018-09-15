@@ -1,7 +1,7 @@
+require 'time'
 require_relative 'item_repository'
 require_relative 'standard_deviation_module'
 require_relative 'sum_module'
-
 
 class SalesAnalyst
   include StandardDeviation
@@ -164,4 +164,28 @@ class SalesAnalyst
     end
   end
 
+  def total_invoices_per_day_hash
+    @sales_engine.invoices.invoices.reduce(Hash.new(0)) do |hash, item|
+      time = item.created_at.strftime("%A")
+      hash[time] += 1
+      hash
+    end
+  end
+
+  def average_invoices_per_day
+    (total_invoices.count) / 7
+  end
+
+  def standard_deviation_of_invoices_per_day
+    average = average_invoices_per_day
+    collection = total_invoices_per_day_hash.values
+    standard_deviation(average, collection)
+  end
+
+  def top_days_by_invoice_count
+    over_one_stdev = standard_deviation_of_invoices_per_day + average_invoices_per_day
+    total_invoices_per_day_hash.keys.find_all do |day_key|
+      total_invoices_per_day_hash[day_key] > over_one_stdev
+    end
+  end
 end
