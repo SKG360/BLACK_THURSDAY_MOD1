@@ -22,6 +22,12 @@ module FindObjects
     end
   end
 
+  def find_all_by_invoice_id(invoice_id)
+    @storage.find_all do |invoice|
+      invoice.invoice_id == invoice_id
+    end
+  end
+
   def create(attributes)
     attributes[:id] = @storage[-1].id + 1
     @storage << @object_class.new(attributes)

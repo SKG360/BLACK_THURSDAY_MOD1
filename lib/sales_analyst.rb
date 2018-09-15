@@ -89,4 +89,11 @@ class SalesAnalyst
     total = total_invoices.count
     ((amt_invoices.to_f / total) * 100).round(2)
   end
+
+  def invoice_paid_in_full?(invoice_id)
+    invoices = @sales_engine.transactions.find_all_by_invoice_id(invoice_id)
+    invoices.all? do |invoice|
+      invoice.result == :success
+    end
+  end
 end
