@@ -72,8 +72,8 @@ module SAHelper
   end
 
   def invoice_status_hash
-    @sales_engine.invoices.storage.reduce(Hash.new(0)) do |hash, item|
-      hash[item.status] += 1
+    @sales_engine.invoices.storage.reduce(Hash.new(0)) do |hash, invoice|
+      hash[invoice.status] += 1
       hash
     end
   end
