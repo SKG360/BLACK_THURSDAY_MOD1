@@ -1,7 +1,7 @@
+require 'time'
 require_relative 'item_repository'
 require_relative 'standard_deviation_module'
 require_relative 'sum_module'
-
 
 class SalesAnalyst
   include StandardDeviation
@@ -140,13 +140,52 @@ class SalesAnalyst
     average_invoices_per_merchant_standard_deviation * 2
   end
 
-  def top_merchants_by_invoice_count
-    top_merchants = total_invoices_per_merchant.keys.find_all do |merchant_id|
-      if total_invoices_per_merchant[merchant_id] > (two_standard_deviations + average_invoices_per_merchant)
-      merchant_id = @sales_engine.merchants[:id]
-      require "pry"; binding.pry
-      end
+  def top_merchants_by_invoice_count_merchant_ids
+    total_invoices_per_merchant.keys.find_all do |merchant_id|
+      total_invoices_per_merchant[merchant_id] > (two_standard_deviations + average_invoices_per_merchant)
     end
   end
 
+  def top_merchants_by_invoice_count
+    top_merchants_by_invoice_count_merchant_ids.map do |merchant_id|
+      @sales_engine.merchants.find_by_id(merchant_id)
+    end
+  end
+
+  def bottom_merchants_by_invoice_count_merchant_ids
+    total_invoices_per_merchant.keys.find_all do |merchant_id|
+      total_invoices_per_merchant[merchant_id] < (average_invoices_per_merchant - two_standard_deviations)
+    end
+  end
+
+  def bottom_merchants_by_invoice_count
+    bottom_merchants_by_invoice_count_merchant_ids.map do |merchant_id|
+      @sales_engine.merchants.find_by_id(merchant_id)
+    end
+  end
+
+  def total_invoices_per_day_hash
+    @sales_engine.invoices.invoices.reduce(Hash.new(0)) do |hash, item|
+      time = item.created_at.strftime("%A")
+      hash[time] += 1
+      hash
+    end
+  end
+
+  def average_invoices_per_day
+    (total_invoices.count) / 7
+  end
+
+  def standard_deviation_of_invoices_per_day
+    average = average_invoices_per_day
+    collection = total_invoices_per_day_hash.values
+    standard_deviation(average, collection)
+  end
+
+  def top_days_by_invoice_count
+    over_one_stdev = standard_deviation_of_invoices_per_day + average_invoices_per_day
+    total_invoices_per_day_hash.keys.find_all do |day_key|
+      total_invoices_per_day_hash[day_key] > over_one_stdev
+    end
+  end
 end
