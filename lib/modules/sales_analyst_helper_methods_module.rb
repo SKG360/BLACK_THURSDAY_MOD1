@@ -111,5 +111,20 @@ module SAHelper
     end
   end
 
+  def grouped_invoices_by_merchants
+    @sales_engine.invoices.storage.group_by do |invoice|
+      invoice.merchant_id
+    end
+  end
+
+  def finds_grouped_invoice_ids
+    grouped_invoices_by_merchants.keys.reduce(Hash.new(0)) do |hash, merchant_id|
+      ii = grouped_invoices_by_merchants[merchant_id].map do |invoice|
+        invoice.id
+      end
+      hash[merchant_id] = ii
+      hash
+    end
+  end
 
 end

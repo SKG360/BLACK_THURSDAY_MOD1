@@ -341,7 +341,7 @@ class SalesAnalystTest < MiniTest::Test
     sales_analyst = sales_engine.analyst
     assert_instance_of Hash, sales_analyst.group_items_by_merchant_id
     assert_equal 243, sales_analyst.hash_of_merchants_with_one_item.keys.count
-    assert_equal 243, sales_analyst.merchants_with_only_item.count
+    assert_equal 243, sales_analyst.merchants_with_only_one_item.count
   end
 
   def test_it_can_calculate_total_revenue_date
@@ -359,5 +359,21 @@ class SalesAnalystTest < MiniTest::Test
     assert_equal 8, sales_analyst.finds_invoice_items_by_date("2009-02-07").count
     assert_equal 1, sales_analyst.finds_invoices_by_date("2009-02-07").count
     assert_equal 21067.77, sales_analyst.total_revenue_by_date("2009-02-07")
+  end
+
+  def test_it_can_return_the_top_revenue_earners
+    sales_engine = SalesEngine.from_csv({
+      items: "./data/items.csv",
+      merchants:  "./data/merchants.csv",
+      invoices:  "./data/invoices.csv",
+      invoice_items:  "./data/invoice_items.csv",
+      transactions:  "./data/transactions.csv",
+      customers:  "./data/customers.csv"
+    })
+
+    sales_analyst = sales_engine.analyst
+
+    assert_instance_of Hash, sales_analyst.grouped_invoices_by_merchants
+    assert_equal 454, sales_analyst.finds_grouped_invoice_ids
   end
 end
