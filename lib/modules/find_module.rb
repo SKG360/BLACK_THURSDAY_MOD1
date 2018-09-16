@@ -37,4 +37,11 @@ module FindObjects
     item_to_delete = find_by_id(id)
     @storage.delete(item_to_delete)
   end
+
+  def find_all_by_created_at_date(date)
+    @storage.find_all do |item_obj|
+      item_obj.created_at.strftime("%Y%m%d") == Time.parse(date.to_s).strftime("%Y%m%d")
+    end
+  end
+
 end
