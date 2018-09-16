@@ -77,4 +77,39 @@ module SAHelper
       hash
     end
   end
+
+  def group_items_by_merchant_id
+    @sales_engine.items.storage.group_by do |item|
+      item.merchant_id
+    end
+  end
+
+  def hash_of_merchants_with_one_item
+    group_items_by_merchant_id.delete_if do |merchant_id, items|
+      items.count > 1
+    end
+  end
+
+  def finds_invoices_by_date(date)
+    invoice_found = @sales_engine.invoices.find_all_by_created_at_date(date)
+    invoice_found.map do |invoice|
+      invoice.id
+    end
+  end
+
+  def finds_invoice_items_by_date(date)
+    fibd = finds_invoices_by_date(date)
+    fibd.map do |invoice_id|
+      @sales_engine.invoice_items.find_all_by_invoice_id(invoice_id)
+    end.flatten
+  end
+
+  def finds_invoice_items_totals(date)
+    fiibd = finds_invoice_items_by_date(date)
+    fiibd.map do |invoice_item|
+      invoice_item.quantity * invoice_item.unit_price
+    end
+  end
+
+
 end

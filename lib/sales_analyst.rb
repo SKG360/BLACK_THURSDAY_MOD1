@@ -92,20 +92,27 @@ class SalesAnalyst
 
   def invoice_paid_in_full?(invoice_id)
     invoices = @sales_engine.transactions.find_all_by_invoice_id(invoice_id)
-    if invoices == []
-      false
-    elsif invoices.all? do |invoice|
+    invoices.any? do |invoice|
       invoice.result == :success
-      end
-      true
-    else
-      false
     end
   end
 
   def invoice_total(invoice_id)
-    invoices = @sales_engine.invoice_items.find_all_by_invoice_id(invoice_id)
-    prices = invoice_items_quantity_times_unit_price_array(invoices)
+    invoice_items = @sales_engine.invoice_items.find_all_by_invoice_id(invoice_id)
+    prices = invoice_items_quantity_times_unit_price_array(invoice_items)
     sum_of_collection(prices)
   end
+
+  def merchants_with_only_item
+    hash_of_merchants_with_one_item.keys.map do |merchant_id|
+      @sales_engine.merchants.find_by_id(merchant_id)
+    end
+  end
+
+  def total_revenue_by_date(date)
+    fiit = finds_invoice_items_totals(date)
+    sum_of_collection(fiit)
+  end
+
+
 end
