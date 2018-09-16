@@ -114,4 +114,6 @@ class SalesAnalyst
     sum_of_collection(fiit)
   end
 
+  
+
 end

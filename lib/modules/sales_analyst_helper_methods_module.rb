@@ -112,19 +112,58 @@ module SAHelper
   end
 
   def grouped_invoices_by_merchants
-    @sales_engine.invoices.storage.group_by do |invoice|
+    grouped_invoices = @sales_engine.invoices.storage.find_all do |invoice|
+     invoice.status == :pending  
+    end
+    grouped_invoices.group_by do |invoice|
       invoice.merchant_id
     end
   end
 
   def finds_grouped_invoice_ids
     grouped_invoices_by_merchants.keys.reduce(Hash.new(0)) do |hash, merchant_id|
-      ii = grouped_invoices_by_merchants[merchant_id].map do |invoice|
+      invoice_ids = grouped_invoices_by_merchants[merchant_id].map do |invoice|
         invoice.id
       end
-      hash[merchant_id] = ii
+      hash[merchant_id] = invoice_ids
       hash
     end
   end
+
+  def finds_grouped_invoice_items
+    finds_grouped_invoice_ids.reduce(Hash.new(0)) do |hash, (merchant_id, invoice_ids)|
+      invoice_items = invoice_ids.map do |invoice_id|
+        @sales_engine.invoice_items.find_all_by_invoice_id(invoice_id)
+      end.flatten
+      hash[merchant_id] = invoice_items
+      hash
+    end
+  end
+
+  def finds_invoice_totals
+    finds_grouped_invoice_items.reduce(Hash.new(0)) do |hash, (merchant_id, invoice_items)|
+      totals = invoice_items.map do |invoice_item|
+        invoice_item.quantity * invoice_item.unit_price
+      end
+      hash[merchant_id] = totals
+      hash
+    end
+  end
+
+  def finds_pre_sorted_sums
+    finds_invoice_totals.reduce(Hash.new(0)) do |hash, (merchant_id, totals)|
+      hash[merchant_id] = sum_of_collection(totals)
+      hash
+    end
+  end
+
+  def sorted_merchants_by_revenue_totals
+    finds_pre_sorted_sums.sort_by do |merchant_id, grand_totals|
+      grand_totals
+    end.to_h
+  end
+
+
+
 
 end
