@@ -32,4 +32,10 @@ module Totals
       hash
     end
   end
+
+  def invoice_items_quantity_times_unit_price_array(invoices)
+    invoices.map do |invoice|
+      invoice.quantity * invoice.unit_price
+    end
+  end
 end
