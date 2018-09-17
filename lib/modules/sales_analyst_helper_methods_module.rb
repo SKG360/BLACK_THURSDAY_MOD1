@@ -1,4 +1,7 @@
+require_relative 'find_module'
+
 module SAHelper
+  include FindObjects
 
   def merchant_id_with_high_item_count
     total_items_per_merchant.map do |merch, item|
@@ -110,12 +113,15 @@ module SAHelper
       invoice_item.quantity * invoice_item.unit_price
     end
   end
+  
+  def successful_invoices
+    find_invoice_ids_for_successful_transactions.map do |invoice_id|
+      @sales_engine.invoices.find_by_id(invoice_id)
+    end
+  end
 
   def grouped_invoices_by_merchants
-    grouped_invoices = @sales_engine.invoices.storage.find_all do |invoice|
-     invoice.status == :pending  
-    end
-    grouped_invoices.group_by do |invoice|
+    successful_invoices.group_by do |invoice|
       invoice.merchant_id
     end
   end
@@ -163,7 +169,15 @@ module SAHelper
     end.to_h
   end
 
+  def pending_invoices
+    @sales_engine.invoices.storage.delete_if do |invoice|
+      find_invoice_ids_for_successful_transactions.include?(invoice.id)
+    end
+  end
 
-
-
+  def merchant_ids_from_pending_invoices
+    pending_invoices.map do |invoice|
+      invoice.merchant_id
+    end.uniq
+  end
 end
