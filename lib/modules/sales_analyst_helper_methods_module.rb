@@ -88,7 +88,7 @@ module SAHelper
   end
 
   def hash_of_merchants_with_one_item
-    group_items_by_merchant_id.delete_if do |merchant_id, items|
+    group_items_by_merchant_id.reject do |merchant_id, items|
       items.count > 1
     end
   end
@@ -170,7 +170,7 @@ module SAHelper
   end
 
   def pending_invoices
-    @sales_engine.invoices.storage.delete_if do |invoice|
+    @sales_engine.invoices.storage.reject do |invoice|
       find_invoice_ids_for_successful_transactions.include?(invoice.id)
     end
   end
@@ -224,7 +224,7 @@ module SAHelper
 
   def hash_of_merchants_with_only_one_item(month)
     homwi = hash_of_merchants_with_items(month)
-    homwi.delete_if do |merchant, items|
+    homwi.reject do |merchant, items|
       items.count > 1
     end
   end

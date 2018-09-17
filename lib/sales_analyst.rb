@@ -134,4 +134,7 @@ class SalesAnalyst
     homwooi = hash_of_merchants_with_only_one_item(month)
     homwooi.keys
   end
+
+  def most_sold_item_for_merchant(merchant_id)
+  end
 end
