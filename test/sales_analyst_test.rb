@@ -7,6 +7,7 @@ require './lib/sales_analyst'
 
 class SalesAnalystTest < MiniTest::Test
   def test_if_it_exists
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants:  "./data/merchants.csv",
@@ -20,6 +21,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_it_returns_all_merchants
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants:  "./data/merchants.csv",
@@ -35,6 +37,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_it_returns_all_items
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants:  "./data/merchants.csv",
@@ -50,6 +53,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_that_it_returns_the_avg_item_per_merchant
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants:  "./data/merchants.csv",
@@ -65,6 +69,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_the_standard_deviation_avg_item_per_merchant
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants:  "./data/merchants.csv",
@@ -81,6 +86,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_that_it_returns_the_merchants_that_sell_the_most_items
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants:  "./data/merchants.csv",
@@ -98,6 +104,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_the_avg_item_price_per_merchant
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants:  "./data/merchants.csv",
@@ -114,6 +121,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_it_makes_array_of_avg_item_prices
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants:  "./data/merchants.csv",
@@ -131,6 +139,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_if_it_returns_an_array_of_golden_items
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants:  "./data/merchants.csv",
@@ -147,6 +156,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_it_calculates_average_invoices_per_merchant
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants:  "./data/merchants.csv",
@@ -163,6 +173,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_it_calculates_average_invoices_per_merchant_standard_deviation
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants:  "./data/merchants.csv",
@@ -179,6 +190,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_it_can_find_total_invoices_per_merchant
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants:  "./data/merchants.csv",
@@ -194,6 +206,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_it_can_calculate_two_standard_deviations
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants:  "./data/merchants.csv",
@@ -209,6 +222,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_it_can_return_top_merchants_merchant_ids
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants:  "./data/merchants.csv",
@@ -225,6 +239,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_it_can_return_top_merchants
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants:  "./data/merchants.csv",
@@ -240,6 +255,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_it_can_return_bottom_merchants
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants:  "./data/merchants.csv",
@@ -257,6 +273,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_it_can_calculate_top_days_by_invoice_count
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants:  "./data/merchants.csv",
@@ -277,6 +294,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_it_can_calculate_precantage_based_on_status
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants:  "./data/merchants.csv",
@@ -296,6 +314,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_that_the_invoice_is_paid_in_full
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants:  "./data/merchants.csv",
@@ -314,6 +333,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_it_calulates_invoice_total
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants:  "./data/merchants.csv",
@@ -329,6 +349,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_it_returns_merchants_with_only_one_item
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants:  "./data/merchants.csv",
@@ -341,10 +362,11 @@ class SalesAnalystTest < MiniTest::Test
     sales_analyst = sales_engine.analyst
     assert_instance_of Hash, sales_analyst.group_items_by_merchant_id
     assert_equal 243, sales_analyst.hash_of_merchants_with_one_item.keys.count
-    assert_equal 243, sales_analyst.merchants_with_only_item.count
+    assert_equal 243, sales_analyst.merchants_with_only_one_item.count
   end
 
   def test_it_can_calculate_total_revenue_date
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants:  "./data/merchants.csv",
@@ -359,5 +381,48 @@ class SalesAnalystTest < MiniTest::Test
     assert_equal 8, sales_analyst.finds_invoice_items_by_date("2009-02-07").count
     assert_equal 1, sales_analyst.finds_invoices_by_date("2009-02-07").count
     assert_equal 21067.77, sales_analyst.total_revenue_by_date("2009-02-07")
+  end
+
+  def test_it_can_return_the_top_revenue_earners
+    skip
+    sales_engine = SalesEngine.from_csv({
+      items: "./data/items.csv",
+      merchants:  "./data/merchants.csv",
+      invoices:  "./data/invoices.csv",
+      invoice_items:  "./data/invoice_items.csv",
+      transactions:  "./data/transactions.csv",
+      customers:  "./data/customers.csv"
+    })
+
+    sales_analyst = sales_engine.analyst
+
+    #assert_instance_of Hash, sales_analyst.grouped_invoices_by_merchants
+    #assert_instance_of Hash, sales_analyst.finds_grouped_invoice_ids
+    #assert_instance_of Array, sales_analyst.finds_grouped_invoice_ids.values
+    #assert_instance_of Hash, sales_analyst.finds_grouped_invoice_items
+    #assert_instance_of Hash, sales_analyst.finds_invoice_totals
+    #assert_instance_of Hash, sales_analyst.finds_pre_sorted_sums
+    #assert_instance_of BigDecimal, sales_analyst.finds_pre_sorted_sums.values[0]
+    assert_equal 343344, sales_analyst.sorted_merchants_by_revenue_totals
+  end
+
+  def test_it_can_find_merchants_with_pending_invoices
+    sales_engine = SalesEngine.from_csv({
+      items: "./data/items.csv",
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
+    })
+
+    sales_analyst = sales_engine.analyst
+
+    assert_equal 4158, sales_analyst.find_all_successful_transactions.count
+    assert_equal 4158, sales_analyst.find_invoice_ids_for_successful_transactions.count
+    assert_equal 2175, sales_analyst.pending_invoices.count
+    assert_equal 467, sales_analyst.merchant_ids_from_pending_invoices.count
+    assert_instance_of Merchant, sales_analyst.merchants_with_pending_invoices[0]
+    assert_equal 467, sales_analyst.merchants_with_pending_invoices.count
   end
 end

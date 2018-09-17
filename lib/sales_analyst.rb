@@ -103,7 +103,7 @@ class SalesAnalyst
     sum_of_collection(prices)
   end
 
-  def merchants_with_only_item
+  def merchants_with_only_one_item
     hash_of_merchants_with_one_item.keys.map do |merchant_id|
       @sales_engine.merchants.find_by_id(merchant_id)
     end
@@ -114,5 +114,13 @@ class SalesAnalyst
     sum_of_collection(fiit)
   end
 
+#  def top_revenue_earners(x = 20)
+#    sorted_merchants_by_revenue_totals.keys[-x..-1]
+#  end
 
+  def merchants_with_pending_invoices
+    merchant_ids_from_pending_invoices.map do |merchant_id|
+      @sales_engine.merchants.find_by_id(merchant_id)
+    end
+  end
 end
