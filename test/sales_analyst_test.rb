@@ -407,6 +407,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_it_can_find_merchants_with_pending_invoices
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants: "./data/merchants.csv",
@@ -427,6 +428,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_it_can_calculate_total_revenue_by_merchant
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants: "./data/merchants.csv",
@@ -452,5 +454,28 @@ class SalesAnalystTest < MiniTest::Test
     assert_instance_of Array, actual_3
 
     assert_equal 97_979.37, sales_analyst.revenue_by_merchant(12334194)
+  end
+
+  def test_the_most_sold_item_for_a_merchant
+    sales_engine = SalesEngine.from_csv({
+      items: "./data/items.csv",
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
+    })
+
+    sales_analyst = sales_engine.analyst
+    assert_instance_of Hash, sales_analyst.sum_of_invoice_item_quantity(12334189)
+    # assert_equal 23432, sales_analyst.sort_invoice_items_by_quantity(12334189)
+    # assert_equal 232, sales_analyst.delete_the_lower_ranking_items(12334189)
+    assert_instance_of Array, sales_analyst.finds_invoice_ids_from_most_sold_items(12334189)
+    # assert_instance_of Hash, sales_analyst.eliminates_items_less_than_five(12334189)
+    # assert_equal 345522, sales_analyst.finds_sorted_quantity_by_id(12334189)
+require "pry"; binding.pry
+    assert_equal 8678, sales_analyst.most_sold_item_for_merchant(12334189)
+
+
   end
 end
