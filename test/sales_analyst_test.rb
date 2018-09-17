@@ -384,6 +384,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_it_can_return_the_top_revenue_earners
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants:  "./data/merchants.csv",
@@ -403,8 +404,25 @@ class SalesAnalystTest < MiniTest::Test
     #assert_instance_of Hash, sales_analyst.finds_pre_sorted_sums
     #assert_instance_of BigDecimal, sales_analyst.finds_pre_sorted_sums.values[0]
     assert_equal 343344, sales_analyst.sorted_merchants_by_revenue_totals
-
   end
 
+  def test_it_can_find_merchants_with_pending_invoices
+    sales_engine = SalesEngine.from_csv({
+      items: "./data/items.csv",
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
+    })
 
+    sales_analyst = sales_engine.analyst
+
+    assert_equal 4158, sales_analyst.find_all_successful_transactions.count
+    assert_equal 4158, sales_analyst.find_invoice_ids_for_successful_transactions.count
+    assert_equal 2175, sales_analyst.pending_invoices.count
+    assert_equal 467, sales_analyst.merchant_ids_from_pending_invoices.count
+    assert_instance_of Merchant, sales_analyst.merchants_with_pending_invoices[0]
+    assert_equal 467, sales_analyst.merchants_with_pending_invoices.count
+  end
 end
