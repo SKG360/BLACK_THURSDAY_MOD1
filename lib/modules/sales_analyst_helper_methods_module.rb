@@ -113,7 +113,7 @@ module SAHelper
       invoice_item.quantity * invoice_item.unit_price
     end
   end
-  
+
   def successful_invoices
     find_invoice_ids_for_successful_transactions.map do |invoice_id|
       @sales_engine.invoices.find_by_id(invoice_id)
@@ -179,5 +179,23 @@ module SAHelper
     pending_invoices.map do |invoice|
       invoice.merchant_id
     end.uniq
+  end
+
+  def all_merchant_invoices(merchant_id)
+    @sales_engine.invoices.find_all_by_merchant_id(merchant_id)
+  end
+
+  def all_invoice_ids_for_merchant(merchant_id)
+    ami = all_merchant_invoices(merchant_id)
+    ami.map do |invoice|
+      invoice.id
+    end
+  end
+
+  def all_invoice_items_for_merchant(merchant_id)
+    aiifm = all_invoice_ids_for_merchant(merchant_id)
+    aiifm.map do |invoice_id|
+      @sales_engine.invoice_items.find_all_by_invoice_id(invoice_id)
+    end.flatten
   end
 end

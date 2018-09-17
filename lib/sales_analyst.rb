@@ -123,4 +123,10 @@ class SalesAnalyst
       @sales_engine.merchants.find_by_id(merchant_id)
     end
   end
+
+  def revenue_by_merchant(merchant_id)
+    aiifm = all_invoice_items_for_merchant(merchant_id)
+    iic = invoice_items_cost(aiifm)
+    sum_of_collection(iic)
+  end
 end
