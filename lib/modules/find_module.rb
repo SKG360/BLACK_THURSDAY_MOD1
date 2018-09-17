@@ -83,9 +83,10 @@ module FindObjects
     end
   end
 
-  def find_all_invoices_with_only_failed_results
-    group_all_transactions_by_invoice_id.keys.delete_if do |invoice_id|
-      group_all_transactions_by_invoice_id[invoice_id].all?(:failed)
-    end
-  end
+  # def find_all_invoices_with_only_failed_results
+  #   group_all_transactions_by_invoice_id.keys.delete_if do |invoice_id|
+  #     group_all_transactions_by_invoice_id[invoice_id].all?(:failed)
+  #   end
+  # end
+
 end

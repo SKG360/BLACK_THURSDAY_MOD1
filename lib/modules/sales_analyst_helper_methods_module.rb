@@ -88,8 +88,8 @@ module SAHelper
   end
 
   def hash_of_merchants_with_one_item
-    group_items_by_merchant_id.delete_if do |merchant_id, items|
-      items.count > 1
+    group_items_by_merchant_id.find_all do |merchant_id, items|
+      items.count == 1
     end
   end
 
@@ -170,8 +170,8 @@ module SAHelper
   end
 
   def pending_invoices
-    @sales_engine.invoices.storage.delete_if do |invoice|
-      find_invoice_ids_for_successful_transactions.include?(invoice.id)
+    @sales_engine.invoices.storage.find_all do |invoice|
+      find_invoice_ids_for_successful_transactions.exclude?(invoice.id)
     end
   end
 
@@ -197,5 +197,34 @@ module SAHelper
     aiifm.map do |invoice_id|
       @sales_engine.invoice_items.find_all_by_invoice_id(invoice_id)
     end.flatten
+  end
+
+  def sum_of_invoice_item_quantity(merchant_id)
+    all_invoice_items = all_invoice_items_for_merchant(merchant_id)
+    all_invoice_items.reduce(Hash.new(0)) do |hash, invoice_item|
+      hash[invoice_item] += invoice_item.quantity
+      hash
+    end
+  end
+
+  def sort_invoice_items_by_quantity(merchant_id)
+    soiiq = sum_of_invoice_item_quantity(merchant_id)
+    soiiq.sort_by do |invoice_item, quantity|
+      quantity
+    end.to_h
+  end
+
+  def delete_the_lower_ranking_items(merchant_id)
+    soiiq = sort_invoice_items_by_quantity(merchant_id)
+    soiiq.find_all do |invoice_item, quantity|
+      quantity == soiiq.values[-1]
+    end
+  end
+
+  def finds_invoice_ids_from_most_sold_items(merchant_id)
+    dtlri = delete_the_lower_ranking_items(merchant_id)
+    dtlri.keys.map do |invoice_item|
+      invoice_item.item_id
+    end
   end
 end

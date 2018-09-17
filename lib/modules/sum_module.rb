@@ -12,5 +12,6 @@ module SumOfCollection
     invoice_item_collection.map do |invoice_item|
       invoice_item.quantity * invoice_item.unit_price
     end
-  end 
+  end
+
 end
