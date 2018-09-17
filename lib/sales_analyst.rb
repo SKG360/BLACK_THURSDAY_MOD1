@@ -129,4 +129,9 @@ class SalesAnalyst
     iic = invoice_items_cost(aiifm)
     sum_of_collection(iic)
   end
+
+  def merchants_with_only_one_item_registered_in_month(month)
+    homwooi = hash_of_merchants_with_only_one_item(month)
+    homwooi.keys
+  end
 end

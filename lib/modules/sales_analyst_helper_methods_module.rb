@@ -198,4 +198,34 @@ module SAHelper
       @sales_engine.invoice_items.find_all_by_invoice_id(invoice_id)
     end.flatten
   end
+
+  def all_merchants_by_given_month(month)
+    @sales_engine.merchants.find_all_by_created_at_date_month(month)
+  end
+
+  def hash_of_merchants_in_month_with_ids(month)
+    ambgm = all_merchants_by_given_month(month)
+    hash_of_merchants_with_ids = Hash.new(0)
+    ambgm.each do |merchant|
+      hash_of_merchants_with_ids[merchant] = merchant.id
+    end
+    hash_of_merchants_with_ids
+  end
+
+  def hash_of_merchants_with_items(month)
+    homimwi = hash_of_merchants_in_month_with_ids(month)
+    hash_of_merchants_with_items = Hash.new(0)
+    items = @sales_engine.items
+    homimwi.keys.each do |merchant|
+      hash_of_merchants_with_items[merchant] = items.find_all_by_merchant_id(homimwi[merchant])
+    end
+    hash_of_merchants_with_items
+  end
+
+  def hash_of_merchants_with_only_one_item(month)
+    homwi = hash_of_merchants_with_items(month)
+    homwi.delete_if do |merchant, items|
+      items.count > 1
+    end
+  end
 end
