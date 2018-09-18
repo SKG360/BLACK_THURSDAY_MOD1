@@ -4,14 +4,12 @@ require_relative 'modules/standard_deviation_module'
 require_relative 'modules/sum_module'
 require_relative 'modules/sales_analyst_helper_methods_module'
 require_relative 'modules/totals_module'
-#require_relative 'modules/revenue'
 
 class SalesAnalyst
   include StandardDeviation
   include SumOfCollection
   include SAHelper
   include Totals
-#  include Revenue
 
   def initialize(sales_engine)
     @sales_engine = sales_engine
@@ -125,7 +123,7 @@ class SalesAnalyst
       revenue_by_merchant(merchant.id)
     end.reverse
   end
-  
+
   def merchants_with_pending_invoices
     merchant_ids_from_pending_invoices.map do |merchant_id|
       @sales_engine.merchants.find_by_id(merchant_id)
@@ -146,20 +144,12 @@ class SalesAnalyst
   end
 
   def most_sold_item_for_merchant(merchant_id)
-    collection = sorted_hash_of_invoice_items_and_quantities(merchant_id)
-    collection2 = reject_the_lower_ranking_items(merchant_id, collection)
-    fiifmsi = finds_invoice_ids_from_most_sold_items(merchant_id, collection2)
-    fiifmsi.map do |item_id|
-      @sales_engine.items.find_by_id(item_id)
-    end
   end
 
-  #def best_item_for_merchant(merchant_id)
-  #  collection = sorted_hash_of_invoice_items_and_rev(merchant_id)
-  #  collection2 = reject_the_lower_ranking_items(merchant_id, collection)
-  #  fiifmsi = finds_invoice_ids_from_most_sold_items(merchant_id, collection2)
-  #  fiifmsi.map do |item_id|
-  #    @sales_engine.items.find_by_id(item_id)
-  #  end
-  #end
+  def invoice_items_per_invoice(invoice_id)
+    invoice_items_of_invoice = @sales_engine.invoice_items.find_all_by_invoice_id(invoice_id)
+  end
+
+  def best_item_for_merchant(merchant_id)
+  end
 end

@@ -440,21 +440,6 @@ class SalesAnalystTest < MiniTest::Test
     sales_analyst = sales_engine.analyst
 
     assert_equal 2143253, sales_analyst.top_revenue_earners(20)
-
-    #actual_1 = sales_analyst.all_merchant_invoices(12334194)
-    #assert_instance_of Array, actual_1
-    #assert_equal 13, actual_1.count
-
-    #actual_2 = sales_analyst.all_invoice_ids_for_merchant(12334194)
-    #assert_instance_of Array, actual_2
-    #assert_equal 13, actual_2.count
-
-    #actual_3 = sales_analyst.all_invoice_items_for_merchant(12334194)
-    #assert_equal 41, actual_3.count
-    #assert_instance_of InvoiceItem, actual_3[0]
-    #assert_instance_of Array, actual_3
-
-    #assert_equal 97_979.37, sales_analyst.revenue_by_merchant(12334194)
   end
 
   def test_it_finds_merchants_with_only_one_item_registered_in_month
@@ -509,6 +494,5 @@ class SalesAnalystTest < MiniTest::Test
     actual_5 = sales_analyst.reject_the_lower_ranking_items(12337105)
 
     assert_equal 213546564352, actual_5
-
   end
 end
