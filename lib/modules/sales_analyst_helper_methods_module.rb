@@ -228,4 +228,66 @@ module SAHelper
       items.count > 1
     end
   end
+
+  def all_invoice_ids_for_merchant(merchant_id)
+    ami = all_merchant_invoices(merchant_id)
+    ami.map do |invoice|
+      invoice.id
+    end
+  end
+
+  def returned_invoices
+    @sales_engine.invoices.storage.find_all do |invoice|
+      invoice.status == :returned
+    end
+  end
+
+  def returned_invoice_ids
+    returned_invoices.map do |invoice|
+      invoice.id
+    end
+  end
+
+  def merchant_invoices_minus_returned(merchant_id)
+    all_invoice_ids_for_merchant(merchant_id).reject do |invoice_id|
+      returned_invoice_ids.include?(invoice_id)
+    end 
+  end
+
+  def all_invoice_items_for_merchant(merchant_id)
+    aiifm = merchant_invoices_minus_returned(merchant_id)
+    aiifm.map do |invoice_id|
+      @sales_engine.invoice_items.find_all_by_invoice_id(invoice_id)
+    end.flatten
+  end
+
+  def total_quantities_of_invoice_items(merchant_id)
+    all_ii_for_m = all_invoice_items_for_merchant(merchant_id)
+    hash_of_quantities = Hash.new(0)
+    all_ii_for_m.each do |invoice_item|
+      hash_of_quantities[invoice_item] = invoice_item.quantity
+    end
+    hash_of_quantities
+  end
+
+  def sorted_hash_of_invoice_items_and_quantities(merchant_id)
+    total_quant_of_ii = total_quantities_of_invoice_items(merchant_id)
+    total_quant_of_ii.sort_by do |invoice_item, total_quantities|
+      total_quantities
+    end.reverse.to_h
+  end
+
+  def reject_the_lower_ranking_items(merchant_id)
+    sh_of_in_items_and_quant = sorted_hash_of_invoice_items_and_quantities(merchant_id)
+    sh_of_in_items_and_quant.find_all do |invoice_item, quantity|
+      quantity == sh_of_in_items_and_quant.values[0]
+    end.to_h
+  end
+
+  def finds_invoice_ids_from_most_sold_items(merchant_id)
+    most_sold_items_and_quant = reject_the_lower_ranking_items(merchant_id)
+    most_sold_items_and_quant.keys.map do |invoice_item|
+      invoice_item.item_id
+    end.uniq
+  end
 end

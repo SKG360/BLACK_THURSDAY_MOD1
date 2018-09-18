@@ -476,4 +476,36 @@ class SalesAnalystTest < MiniTest::Test
     assert_instance_of Hash, sales_analyst.hash_of_merchants_with_only_one_item("March")
     assert_equal 21, sales_analyst.merchants_with_only_one_item_registered_in_month("March").count
   end
+
+  def test_it_finds_most_sold_items_for_merchants
+    sales_engine = SalesEngine.from_csv({
+      items: "./data/items.csv",
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
+    })
+
+    sales_analyst = sales_engine.analyst
+
+    actual_1 = sales_analyst.total_quantities_of_invoice_items(12334189)
+    assert_instance_of Hash, actual_1
+    assert_instance_of InvoiceItem, actual_1.keys[0]
+
+    actual_2 = sales_analyst.sorted_hash_of_invoice_items_and_quantities(12334189)
+    assert_instance_of Hash, actual_2
+
+    actual_3 = sales_analyst.reject_the_lower_ranking_items(12334189)
+    assert_instance_of Hash, actual_3
+
+    actual_4 = sales_analyst.finds_invoice_ids_from_most_sold_items(12334189)
+    assert_equal 2, actual_4.count
+    assert_instance_of Array, actual_4
+
+    actual_5 = sales_analyst.reject_the_lower_ranking_items(12337105)
+
+    assert_equal 213546564352, actual_5
+
+  end
 end
