@@ -74,7 +74,7 @@ module FindObjects
   def find_invoice_ids_for_successful_transactions
     find_all_successful_transactions.map do |transaction|
       transaction.invoice_id
-    end
+    end.uniq
   end
 
   def group_all_transactions_by_invoice_id
@@ -84,8 +84,10 @@ module FindObjects
   end
 
   def find_all_invoices_with_only_failed_results
-    group_all_transactions_by_invoice_id.keys.delete_if do |invoice_id|
-      group_all_transactions_by_invoice_id[invoice_id].all?(:failed)
+    group_all_transactions_by_invoice_id.reject do |invoice_id, results|
+      results.all? do |result|
+        result == :failed
+      end
     end
   end
 
