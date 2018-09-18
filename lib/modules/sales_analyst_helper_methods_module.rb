@@ -227,6 +227,14 @@ module SAHelper
     end.flatten
   end
 
+  def finds_quantities_with_invoice_items(merchant_id)
+    faiia = finds_all_invoice_items_associated_with_a_merchant(merchant_id)
+    faiia.reduce(Hash.new(0)) do |hash, invoice_item|
+      hash[invoice_item] += invoice_item.quantity
+      hash
+    end
+  end
+
   def finds_revenue_associated_with_invoice_items(merchant_id)
     faiia = finds_all_invoice_items_associated_with_a_merchant(merchant_id)
     faiia.reduce(Hash.new(0)) do |hash, invoice_item|
@@ -235,10 +243,24 @@ module SAHelper
     end
   end
 
+  def sorts_invoice_items_by_quantity_sold(merchant_id)
+    fqii = finds_quantities_with_invoice_items(merchant_id)
+    fqii.sort_by do |invoice_item, quantity|
+      quantity
+    end.to_h
+  end
+
   def sorts_invoice_items_by_revenue(merchant_id)
     fraii = finds_revenue_associated_with_invoice_items(merchant_id)
     fraii.sort_by do |invoice_item, revenue|
       revenue
     end.to_h
+  end
+
+  def finds_most_sold_invoice_items(merchant_id)
+    siiqs = sorts_invoice_items_by_quantity_sold(merchant_id)
+    siiqs.find_all do |invoice_item, quantities|
+      quantities == siiqs.values[-1]
+    end.to_h 
   end
 end

@@ -498,6 +498,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_it_returns_best_item_for_merchant
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants: "./data/merchants.csv",
@@ -528,5 +529,33 @@ class SalesAnalystTest < MiniTest::Test
     actual_5 = sales_analyst.best_item_for_merchant(12337105)
     assert_equal 263463003, actual_5.id
     assert_instance_of Item, actual_5
+  end
+
+  def test_it_returns_the_most_sold_item_for_merchant
+    sales_engine = SalesEngine.from_csv({
+      items: "./data/items.csv",
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
+    })
+
+    sales_analyst = sales_engine.analyst
+    actual_1 = sales_analyst.finds_quantities_with_invoice_items(12334189)
+    assert_instance_of Hash, actual_1
+    assert_instance_of InvoiceItem, actual_1.keys[0]
+    assert_equal 9, actual_1.values[-1]
+
+    actual_2 =  sales_analyst.sorts_invoice_items_by_quantity_sold(12334189)
+    assert_instance_of Hash, actual_2
+    assert actual_2.values[-1] > actual_2.values[0]
+
+    actual_3 = sales_analyst.finds_most_sold_invoice_items(12334189).values[0]
+    assert_equal 10, actual_3
+
+    actual_4 = sales_analyst.most_sold_item_for_merchant(12334189)
+    assert_instance_of Item, actual_4[0]
+    assert_equal "Adult Princess Leia Hat", actual_4.first.name
   end
 end
