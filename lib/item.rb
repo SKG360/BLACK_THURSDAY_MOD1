@@ -24,5 +24,4 @@ class Item
   def unit_price_to_dollars
     price = @unit_price.to_f
   end
-
 end

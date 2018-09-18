@@ -8,5 +8,4 @@ class Merchant
     @name = data[:name]
     @created_at  = Time.parse(data[:created_at].to_s)
   end
-
 end

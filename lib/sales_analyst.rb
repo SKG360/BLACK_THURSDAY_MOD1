@@ -114,9 +114,15 @@ class SalesAnalyst
     sum_of_collection(fiit)
   end
 
-#  def top_revenue_earners(x = 20)
-#    sorted_merchants_by_revenue_totals.keys[-x..-1]
-#  end
+  def top_revenue_earners(x = 20)
+    merchants_ranked_by_revenue[0..(x-1)]
+  end
+
+  def merchants_ranked_by_revenue
+    @sales_engine.merchants.storage.sort_by do |merchant|
+      revenue_by_merchant(merchant.id)
+    end.reverse
+  end
 
   def merchants_with_pending_invoices
     merchant_ids_from_pending_invoices.map do |merchant_id|
@@ -125,9 +131,11 @@ class SalesAnalyst
   end
 
   def revenue_by_merchant(merchant_id)
-    aiifm = all_invoice_items_for_merchant(merchant_id)
-    iic = invoice_items_cost(aiifm)
-    sum_of_collection(iic)
+    merchant_invoices = all_invoice_ids_for_merchant(merchant_id)
+    collection_of_totals = merchant_invoices.map do |invoice_id|
+      sum_of_invoice_items_by_invoice(invoice_id)
+    end
+    sum_of_collection(collection_of_totals)
   end
 
   def merchants_with_only_one_item_registered_in_month(month)
@@ -136,9 +144,12 @@ class SalesAnalyst
   end
 
   def most_sold_item_for_merchant(merchant_id)
-    fiifmsi = finds_invoice_ids_from_most_sold_items(merchant_id)
-    fiifmsi.map do |item_id|
-      @sales_engine.items.find_by_id(item_id)
-    end
+  end
+
+  def invoice_items_per_invoice(invoice_id)
+    invoice_items_of_invoice = @sales_engine.invoice_items.find_all_by_invoice_id(invoice_id)
+  end
+
+  def best_item_for_merchant(merchant_id)
   end
 end
