@@ -144,6 +144,10 @@ class SalesAnalyst
   end
 
   def most_sold_item_for_merchant(merchant_id)
+    fmsii = finds_most_sold_invoice_items(merchant_id)
+    fmsii.keys.map do |invoice_item|
+      @sales_engine.items.find_by_id(invoice_item.item_id)
+    end
   end
 
   def invoice_items_per_invoice(invoice_id)
