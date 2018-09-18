@@ -88,7 +88,7 @@ module SAHelper
   end
 
   def hash_of_merchants_with_one_item
-    group_items_by_merchant_id.delete_if do |merchant_id, items|
+    group_items_by_merchant_id.reject do |merchant_id, items|
       items.count > 1
     end
   end
@@ -170,7 +170,7 @@ module SAHelper
   end
 
   def pending_invoices
-    @sales_engine.invoices.storage.delete_if do |invoice|
+    @sales_engine.invoices.storage.reject do |invoice|
       find_invoice_ids_for_successful_transactions.include?(invoice.id)
     end
   end
@@ -197,5 +197,97 @@ module SAHelper
     aiifm.map do |invoice_id|
       @sales_engine.invoice_items.find_all_by_invoice_id(invoice_id)
     end.flatten
+  end
+
+  def all_merchants_by_given_month(month)
+    @sales_engine.merchants.find_all_by_created_at_date_month(month)
+  end
+
+  def hash_of_merchants_in_month_with_ids(month)
+    ambgm = all_merchants_by_given_month(month)
+    hash_of_merchants_with_ids = Hash.new(0)
+    ambgm.each do |merchant|
+      hash_of_merchants_with_ids[merchant] = merchant.id
+    end
+    hash_of_merchants_with_ids
+  end
+
+  def hash_of_merchants_with_items(month)
+    homimwi = hash_of_merchants_in_month_with_ids(month)
+    hash_of_merchants_with_items = Hash.new(0)
+    items = @sales_engine.items
+    homimwi.keys.each do |merchant|
+      hash_of_merchants_with_items[merchant] = items.find_all_by_merchant_id(homimwi[merchant])
+    end
+    hash_of_merchants_with_items
+  end
+
+  def hash_of_merchants_with_only_one_item(month)
+    homwi = hash_of_merchants_with_items(month)
+    homwi.reject do |merchant, items|
+      items.count > 1
+    end
+  end
+
+  def all_invoice_ids_for_merchant(merchant_id)
+    ami = all_merchant_invoices(merchant_id)
+    ami.map do |invoice|
+      invoice.id
+    end
+  end
+
+  def returned_invoices
+    @sales_engine.invoices.storage.find_all do |invoice|
+      invoice.status == :returned
+    end
+  end
+
+  def returned_invoice_ids
+    returned_invoices.map do |invoice|
+      invoice.id
+    end
+  end
+
+  def merchant_invoices_minus_returned(merchant_id)
+    all_invoice_ids_for_merchant(merchant_id).reject do |invoice_id|
+      returned_invoice_ids.include?(invoice_id)
+    end 
+  end
+
+  def all_invoice_items_for_merchant(merchant_id)
+    aiifm = merchant_invoices_minus_returned(merchant_id)
+    aiifm.map do |invoice_id|
+      @sales_engine.invoice_items.find_all_by_invoice_id(invoice_id)
+    end.flatten
+  end
+
+  def total_quantities_of_invoice_items(merchant_id)
+    all_ii_for_m = all_invoice_items_for_merchant(merchant_id)
+    hash_of_quantities = Hash.new(0)
+    all_ii_for_m.each do |invoice_item|
+      hash_of_quantities[invoice_item] = invoice_item.quantity
+    end
+    hash_of_quantities
+  end
+
+  def sorted_hash_of_invoice_items_and_quantities(merchant_id)
+    total_quant_of_ii = total_quantities_of_invoice_items(merchant_id)
+    total_quant_of_ii.sort_by do |invoice_item, total_quantities|
+      total_quantities
+    end.reverse.to_h
+  end
+
+  def reject_the_lower_ranking_items(merchant_id)
+    sh_of_in_items_and_quant = sorted_hash_of_invoice_items_and_quantities(merchant_id)
+    sh_of_in_items_and_quant.find_all do |invoice_item, quantity|
+      quantity == sh_of_in_items_and_quant.values[0]
+    end.to_h
+  end
+
+  def finds_invoice_ids_from_most_sold_items(merchant_id)
+    most_sold_items_and_quant = reject_the_lower_ranking_items(merchant_id)
+    most_sold_items_and_quant.keys.map do |invoice_item|
+      invoice_item.item_id
+    end.uniq
   end
 end

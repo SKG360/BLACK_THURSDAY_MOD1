@@ -88,4 +88,10 @@ module FindObjects
       group_all_transactions_by_invoice_id[invoice_id].all?(:failed)
     end
   end
+
+  def find_all_by_created_at_date_month(month)
+    @storage.find_all do |item_obj|
+      item_obj.created_at.strftime("%m") == Time.parse(month.to_s).strftime("%m")
+    end
+  end
 end

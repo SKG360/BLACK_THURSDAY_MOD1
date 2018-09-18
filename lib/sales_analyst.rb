@@ -129,4 +129,16 @@ class SalesAnalyst
     iic = invoice_items_cost(aiifm)
     sum_of_collection(iic)
   end
+
+  def merchants_with_only_one_item_registered_in_month(month)
+    homwooi = hash_of_merchants_with_only_one_item(month)
+    homwooi.keys
+  end
+
+  def most_sold_item_for_merchant(merchant_id)
+    fiifmsi = finds_invoice_ids_from_most_sold_items(merchant_id)
+    fiifmsi.map do |item_id|
+      @sales_engine.items.find_by_id(item_id)
+    end
+  end
 end
