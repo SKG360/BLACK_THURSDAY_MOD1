@@ -219,4 +219,26 @@ module SAHelper
       invoice_item.item_id
     end.uniq
   end
+
+  def finds_all_invoice_items_associated_with_a_merchant(merchant_id)
+    asmi = all_successful_merchant_invoices(merchant_id)
+    asmi.map do |invoice|
+      @sales_engine.invoice_items.find_all_by_invoice_id(invoice.id)
+    end.flatten
+  end
+
+  def finds_revenue_associated_with_invoice_items(merchant_id)
+    faiia = finds_all_invoice_items_associated_with_a_merchant(merchant_id)
+    faiia.reduce(Hash.new(0)) do |hash, invoice_item|
+      hash[invoice_item] += (invoice_item.quantity * invoice_item.unit_price)
+      hash
+    end
+  end
+
+  def sorts_invoice_items_by_revenue(merchant_id)
+    fraii = finds_revenue_associated_with_invoice_items(merchant_id)
+    fraii.sort_by do |invoice_item, revenue|
+      revenue
+    end.to_h
+  end
 end

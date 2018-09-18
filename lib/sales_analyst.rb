@@ -151,5 +151,7 @@ class SalesAnalyst
   end
 
   def best_item_for_merchant(merchant_id)
+    siibr = sorts_invoice_items_by_revenue(merchant_id)
+    @sales_engine.items.find_by_id(siibr.keys[-1].item_id)
   end
 end
