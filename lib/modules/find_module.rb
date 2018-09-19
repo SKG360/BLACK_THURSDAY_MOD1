@@ -28,7 +28,7 @@ module FindObjects
     end
   end
 
-  def create(attributes)
+  def create(attributes = {created_at: Time.now})
     attributes[:id] = @storage[-1].id + 1
     @storage << @object_class.new(attributes)
   end
