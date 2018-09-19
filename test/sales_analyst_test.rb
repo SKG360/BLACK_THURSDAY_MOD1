@@ -208,7 +208,7 @@ class SalesAnalystTest < MiniTest::Test
     assert_equal 6.58, sa.two_standard_deviations
   end
 
-  def test_it_can_return_top_merchants_merchant_ids
+  def test_it_can_return_top_merchants
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants: "./data/merchants.csv",
@@ -222,20 +222,6 @@ class SalesAnalystTest < MiniTest::Test
 
     actual = sa.top_merchants_by_invoice_count_merchant_ids.count
     assert_equal 12, actual
-  end
-
-  def test_it_can_return_top_merchants
-    sales_engine = SalesEngine.from_csv({
-      items: "./data/items.csv",
-      merchants: "./data/merchants.csv",
-      invoices: "./data/invoices.csv",
-      invoice_items: "./data/invoice_items.csv",
-      transactions: "./data/transactions.csv",
-      customers: "./data/customers.csv"
-    })
-
-    sa = sales_engine.analyst
-
     assert_equal 12, sa.top_merchants_by_invoice_count.count
   end
 
@@ -362,6 +348,7 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_it_can_return_the_top_revenue_earners
+    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants: "./data/merchants.csv",

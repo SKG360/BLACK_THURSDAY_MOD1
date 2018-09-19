@@ -1,7 +1,49 @@
-require_relative 'find_module'
-
 module SAHelper
-  include FindObjects
+
+  def finds_invoices_by_date(date)
+    invoice_found = @sales_engine.invoices.find_all_by_created_at_date(date)
+    invoice_found.map do |invoice|
+      invoice.id
+    end
+  end
+
+  def finds_invoice_items_by_date(date)
+    fibd = finds_invoices_by_date(date)
+    fibd.map do |invoice_id|
+      @sales_engine.invoice_items.find_all_by_invoice_id(invoice_id)
+    end.flatten
+  end
+
+  def finds_invoice_items_totals(date)
+    invoice_items = finds_invoice_items_by_date(date)
+    invoice_items_quantity_times_unit_price_array(invoice_items)
+  end
+
+  def find_all_successful_transactions
+    @sales_engine.transactions.storage.find_all do |transaction|
+      transaction.result == :success
+    end
+  end
+
+  def find_invoice_ids_for_successful_transactions
+    find_all_successful_transactions.map do |transaction|
+      transaction.invoice_id
+    end.uniq
+  end
+
+  def group_all_transactions_by_invoice_id
+    @sales_engine.transactions.storage.group_by do |transaction|
+      transaction.invoice_id
+    end
+  end
+
+  def find_all_invoices_with_only_failed_results
+    group_all_transactions_by_invoice_id.reject do |invoice_id, results|
+      results.all? do |result|
+        result == :failed
+      end
+    end
+  end
 
   def merchant_id_with_high_item_count
     total_items_per_merchant.map do |merch, item|
@@ -11,17 +53,21 @@ module SAHelper
     end.compact
   end
 
-  def array_of_merch_items(merchant_id)
-    found_merchants = @sales_engine.items.storage.find_all do |item|
+  def find_item_by_merch_id(merchant_id)
+    @sales_engine.items.storage.find_all do |item|
       item.merchant_id == merchant_id
     end
-    found_merchants.map do |item|
+  end
+
+  def find_item_unit_price(merchant_id)
+    items = find_item_by_merch_id(merchant_id)
+    items.map do |item|
       item.unit_price.to_f
     end
   end
 
   def sum_of_merch_items_array(merchant_id)
-    collection_of_things = array_of_merch_items(merchant_id)
+    collection_of_things = find_item_unit_price(merchant_id)
     sum_of_collection(collection_of_things)
   end
 
@@ -93,25 +139,6 @@ module SAHelper
     end
   end
 
-  def finds_invoices_by_date(date)
-    invoice_found = @sales_engine.invoices.find_all_by_created_at_date(date)
-    invoice_found.map do |invoice|
-      invoice.id
-    end
-  end
-
-  def finds_invoice_items_by_date(date)
-    fibd = finds_invoices_by_date(date)
-    fibd.map do |invoice_id|
-      @sales_engine.invoice_items.find_all_by_invoice_id(invoice_id)
-    end.flatten
-  end
-
-  def finds_invoice_items_totals(date)
-    invoice_item_collection = finds_invoice_items_by_date(date)
-    invoice_items_cost(invoice_item_collection)
-  end
-
   def successful_invoices
     find_invoice_ids_for_successful_transactions.map do |invoice_id|
       @sales_engine.invoices.find_by_id(invoice_id)
@@ -147,9 +174,9 @@ module SAHelper
   end
 
   def all_successful_merchant_invoices(merchant_id)
-    all_invoices = all_merchant_invoices(merchant_id)
-    all_invoices.find_all do |invoice|
-      find_all_successful_transactions_invoices.include?(invoice)
+    successful_invoices = find_all_successful_transactions_invoices
+    successful_invoices.find_all do |invoice|
+      invoice.merchant_id == merchant_id
     end
   end
 
@@ -190,20 +217,8 @@ module SAHelper
     end
   end
 
-  def returned_invoices
-    @sales_engine.invoices.storage.find_all do |invoice|
-      invoice.status == :returned
-    end
-  end
-
-  def shipped_invoices
-    @sales_engine.invoices.storage.find_all do |invoice|
-      invoice.status == :shipped
-    end
-  end
-
   def returned_invoice_ids
-    returned_invoices.map do |invoice|
+    all_returned_invoices.map do |invoice|
       invoice.id
     end
   end
@@ -261,6 +276,12 @@ module SAHelper
     siiqs = sorts_invoice_items_by_quantity_sold(merchant_id)
     siiqs.find_all do |invoice_item, quantities|
       quantities == siiqs.values[-1]
-    end.to_h 
+    end.to_h
+  end
+
+  def validated_invoices(collection)
+    collection.find_all do |invoice_id|
+      invoice_paid_in_full?(invoice_id)
+    end
   end
 end
