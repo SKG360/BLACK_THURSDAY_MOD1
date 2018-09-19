@@ -10,6 +10,6 @@ class Merchant
   end
 
   def time
-    Time.parse(@created_at).to_s
+    Time.parse(@created_at)
   end
 end
