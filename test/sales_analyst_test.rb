@@ -7,407 +7,383 @@ require './lib/sales_analyst'
 
 class SalesAnalystTest < MiniTest::Test
   def test_if_it_exists
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
-      merchants:  "./data/merchants.csv",
-      invoices:  "./data/invoices.csv",
-      invoice_items:  "./data/invoice_items.csv",
-      transactions:  "./data/transactions.csv",
-      customers:  "./data/customers.csv"
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
     })
 
     assert_instance_of SalesAnalyst, sales_engine.analyst
   end
 
   def test_it_returns_all_merchants
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
-      merchants:  "./data/merchants.csv",
-      invoices:  "./data/invoices.csv",
-      invoice_items:  "./data/invoice_items.csv",
-      transactions:  "./data/transactions.csv",
-      customers:  "./data/customers.csv"
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
+    sa = sales_engine.analyst
 
-    assert_equal 475, sales_analyst.total_merchants
+    assert_equal 475, sa.total_merchants
   end
 
   def test_it_returns_all_items
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
-      merchants:  "./data/merchants.csv",
-      invoices:  "./data/invoices.csv",
-      invoice_items:  "./data/invoice_items.csv",
-      transactions:  "./data/transactions.csv",
-      customers:  "./data/customers.csv"
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
+    sa = sales_engine.analyst
 
-    assert_equal 1367, sales_analyst.total_items
+    assert_equal 1367, sa.total_items
   end
 
   def test_that_it_returns_the_avg_item_per_merchant
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
-      merchants:  "./data/merchants.csv",
-      invoices:  "./data/invoices.csv",
-      invoice_items:  "./data/invoice_items.csv",
-      transactions:  "./data/transactions.csv",
-      customers:  "./data/customers.csv"
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
+    sa = sales_engine.analyst
 
-    assert_equal 2.88, sales_analyst.average_items_per_merchant
+    assert_equal 2.88, sa.average_items_per_merchant
   end
 
   def test_the_standard_deviation_avg_item_per_merchant
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
-      merchants:  "./data/merchants.csv",
-      invoices:  "./data/invoices.csv",
-      invoice_items:  "./data/invoice_items.csv",
-      transactions:  "./data/transactions.csv",
-      customers:  "./data/customers.csv"
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
+    sa = sales_engine.analyst
 
-    actual = sales_analyst.average_items_per_merchant_standard_deviation
+    actual = sa.average_items_per_merchant_standard_deviation
     assert_equal 3.26, actual
   end
 
   def test_that_it_returns_the_merchants_that_sell_the_most_items
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
-      merchants:  "./data/merchants.csv",
-      invoices:  "./data/invoices.csv",
-      invoice_items:  "./data/invoice_items.csv",
-      transactions:  "./data/transactions.csv",
-      customers:  "./data/customers.csv"
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
+    sa = sales_engine.analyst
 
-    assert_equal 475, sales_analyst.total_items_per_merchant.count
-    assert_equal 52, sales_analyst.merchant_id_with_high_item_count.count
-    assert_equal 52, sales_analyst.merchants_with_high_item_count.count
+    assert_equal 475, sa.total_items_per_merchant.count
+    assert_equal 52, sa.merchant_id_with_high_item_count.count
+    assert_equal 52, sa.merchants_with_high_item_count.count
   end
 
   def test_the_avg_item_price_per_merchant
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
-      merchants:  "./data/merchants.csv",
-      invoices:  "./data/invoices.csv",
-      invoice_items:  "./data/invoice_items.csv",
-      transactions:  "./data/transactions.csv",
-      customers:  "./data/customers.csv"
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
+    sa = sales_engine.analyst
 
-    assert_equal 64.7, sales_analyst.sum_of_merch_items_array(12334185)
-    assert_equal 10.78, sales_analyst.average_item_price_for_merchant(12334185)
+    assert_equal 64.7, sa.sum_of_merch_items_array(12334185)
+    assert_equal 10.78, sa.average_item_price_for_merchant(12334185)
   end
 
   def test_it_makes_array_of_avg_item_prices
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
-      merchants:  "./data/merchants.csv",
-      invoices:  "./data/invoices.csv",
-      invoice_items:  "./data/invoice_items.csv",
-      transactions:  "./data/transactions.csv",
-      customers:  "./data/customers.csv"
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
+    sa = sales_engine.analyst
 
-    assert_equal 475, sales_analyst.array_of_merchant_averages.count
-    assert_equal 166391.91, sales_analyst.sum_of_averages
-    assert_equal 350.29, sales_analyst.average_average_price_per_merchant
+    assert_equal 475, sa.array_of_merchant_averages.count
+    assert_equal 166391.91, sa.sum_of_averages
+    assert_equal 350.29, sa.average_average_price_per_merchant
   end
 
   def test_if_it_returns_an_array_of_golden_items
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
-      merchants:  "./data/merchants.csv",
-      invoices:  "./data/invoices.csv",
-      invoice_items:  "./data/invoice_items.csv",
-      transactions:  "./data/transactions.csv",
-      customers:  "./data/customers.csv"
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
+    sa = sales_engine.analyst
 
-    assert sales_analyst.golden_items[0], Item
-    assert_equal 5, sales_analyst.golden_items.count
+    assert sa.golden_items[0], Item
+    assert_equal 5, sa.golden_items.count
   end
 
   def test_it_calculates_average_invoices_per_merchant
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
-      merchants:  "./data/merchants.csv",
-      invoices:  "./data/invoices.csv",
-      invoice_items:  "./data/invoice_items.csv",
-      transactions:  "./data/transactions.csv",
-      customers:  "./data/customers.csv"
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
+    sa = sales_engine.analyst
 
-    assert_equal 4985, sales_analyst.total_invoices.length
-    assert_equal 10.49, sales_analyst.average_invoices_per_merchant
+    assert_equal 4985, sa.total_invoices.length
+    assert_equal 10.49, sa.average_invoices_per_merchant
   end
 
   def test_it_calculates_average_invoices_per_merchant_standard_deviation
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
-      merchants:  "./data/merchants.csv",
-      invoices:  "./data/invoices.csv",
-      invoice_items:  "./data/invoice_items.csv",
-      transactions:  "./data/transactions.csv",
-      customers:  "./data/customers.csv"
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
+    sa = sales_engine.analyst
 
-    actual = sales_analyst.average_invoices_per_merchant_standard_deviation
+    actual = sa.average_invoices_per_merchant_standard_deviation
     assert_equal 3.29, actual
   end
 
   def test_it_can_find_total_invoices_per_merchant
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
-      merchants:  "./data/merchants.csv",
-      invoices:  "./data/invoices.csv",
-      invoice_items:  "./data/invoice_items.csv",
-      transactions:  "./data/transactions.csv",
-      customers:  "./data/customers.csv"
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
+    sa = sales_engine.analyst
 
-    assert_equal 475, sales_analyst.total_invoices_per_merchant.count
+    assert_equal 475, sa.total_invoices_per_merchant.count
   end
 
   def test_it_can_calculate_two_standard_deviations
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
-      merchants:  "./data/merchants.csv",
-      invoices:  "./data/invoices.csv",
-      invoice_items:  "./data/invoice_items.csv",
-      transactions:  "./data/transactions.csv",
-      customers:  "./data/customers.csv"
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
+    sa = sales_engine.analyst
 
-    assert_equal 6.58, sales_analyst.two_standard_deviations
+    assert_equal 6.58, sa.two_standard_deviations
   end
 
   def test_it_can_return_top_merchants_merchant_ids
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
-      merchants:  "./data/merchants.csv",
-      invoices:  "./data/invoices.csv",
-      invoice_items:  "./data/invoice_items.csv",
-      transactions:  "./data/transactions.csv",
-      customers:  "./data/customers.csv"
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
+    sa = sales_engine.analyst
 
-    actual = sales_analyst.top_merchants_by_invoice_count_merchant_ids.count
+    actual = sa.top_merchants_by_invoice_count_merchant_ids.count
     assert_equal 12, actual
   end
 
   def test_it_can_return_top_merchants
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
-      merchants:  "./data/merchants.csv",
-      invoices:  "./data/invoices.csv",
-      invoice_items:  "./data/invoice_items.csv",
-      transactions:  "./data/transactions.csv",
-      customers:  "./data/customers.csv"
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
+    sa = sales_engine.analyst
 
-    assert_equal 12, sales_analyst.top_merchants_by_invoice_count.count
+    assert_equal 12, sa.top_merchants_by_invoice_count.count
   end
 
   def test_it_can_return_bottom_merchants
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
-      merchants:  "./data/merchants.csv",
-      invoices:  "./data/invoices.csv",
-      invoice_items:  "./data/invoice_items.csv",
-      transactions:  "./data/transactions.csv",
-      customers:  "./data/customers.csv"
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
+    sa = sales_engine.analyst
 
-    actual = sales_analyst.bottom_merchants_by_invoice_count_merchant_ids
+    actual = sa.bottom_merchants_by_invoice_count_merchant_ids
     assert_instance_of Array, actual
-    assert_equal 4, sales_analyst.bottom_merchants_by_invoice_count.count
+    assert_equal 4, sa.bottom_merchants_by_invoice_count.count
   end
 
   def test_it_can_calculate_top_days_by_invoice_count
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
-      merchants:  "./data/merchants.csv",
-      invoices:  "./data/invoices.csv",
-      invoice_items:  "./data/invoice_items.csv",
-      transactions:  "./data/transactions.csv",
-      customers:  "./data/customers.csv"
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
+    sa = sales_engine.analyst
 
     expected = {"Saturday"=>729, "Friday"=>701, "Wednesday"=>741,
                 "Monday"=>696, "Sunday"=>708, "Tuesday"=>692, "Thursday"=>718}
-    assert_equal expected, sales_analyst.total_invoices_per_day_hash
-    assert_equal 712, sales_analyst.average_invoices_per_day
-    assert_equal 18.07, sales_analyst.standard_deviation_of_invoices_per_day
-    assert_equal ["Wednesday"], sales_analyst.top_days_by_invoice_count
+    assert_equal expected, sa.total_invoices_per_day_hash
+    assert_equal 712, sa.average_invoices_per_day
+    assert_equal 18.07, sa.standard_deviation_of_invoices_per_day
+    assert_equal ["Wednesday"], sa.top_days_by_invoice_count
   end
 
   def test_it_can_calculate_precantage_based_on_status
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
-      merchants:  "./data/merchants.csv",
-      invoices:  "./data/invoices.csv",
-      invoice_items:  "./data/invoice_items.csv",
-      transactions:  "./data/transactions.csv",
-      customers:  "./data/customers.csv"
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
+    sa = sales_engine.analyst
 
-    expected = {:pending=>1473, :shipped=>2839, :returned=>673}
-    assert_equal expected, sales_analyst.invoice_status_hash
-    assert_equal 29.55, sales_analyst.invoice_status(:pending)
-    assert_equal 56.95, sales_analyst.invoice_status(:shipped)
-    assert_equal 13.5, sales_analyst.invoice_status(:returned)
+    expected = {pending: 1473, shipped: 2839, returned: 673}
+    assert_equal expected, sa.invoice_status_hash
+    assert_equal 29.55, sa.invoice_status(:pending)
+    assert_equal 56.95, sa.invoice_status(:shipped)
+    assert_equal 13.5, sa.invoice_status(:returned)
   end
 
   def test_that_the_invoice_is_paid_in_full
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
-      merchants:  "./data/merchants.csv",
-      invoices:  "./data/invoices.csv",
-      invoice_items:  "./data/invoice_items.csv",
-      transactions:  "./data/transactions.csv",
-      customers:  "./data/customers.csv"
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
+    sa = sales_engine.analyst
 
-    assert_equal true, sales_analyst.invoice_paid_in_full?(1)
-    assert_equal true, sales_analyst.invoice_paid_in_full?(200)
-    refute sales_analyst.invoice_paid_in_full?(203)
-    refute sales_analyst.invoice_paid_in_full?(204)
+    assert_equal true, sa.invoice_paid_in_full?(1)
+    assert_equal true, sa.invoice_paid_in_full?(200)
+    refute sa.invoice_paid_in_full?(203)
+    refute sa.invoice_paid_in_full?(204)
   end
 
   def test_it_calulates_invoice_total
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
-      merchants:  "./data/merchants.csv",
-      invoices:  "./data/invoices.csv",
-      invoice_items:  "./data/invoice_items.csv",
-      transactions:  "./data/transactions.csv",
-      customers:  "./data/customers.csv"
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
+    sa = sales_engine.analyst
 
-    assert_equal 21067.77, sales_analyst.invoice_total(1)
+    assert_equal 21067.77, sa.invoice_total(1)
   end
 
   def test_it_returns_merchants_with_only_one_item
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
-      merchants:  "./data/merchants.csv",
-      invoices:  "./data/invoices.csv",
-      invoice_items:  "./data/invoice_items.csv",
-      transactions:  "./data/transactions.csv",
-      customers:  "./data/customers.csv"
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
-    assert_instance_of Hash, sales_analyst.group_items_by_merchant_id
-    assert_equal 243, sales_analyst.hash_of_merchants_with_one_item.keys.count
-    assert_equal 243, sales_analyst.merchants_with_only_one_item.count
+    sa = sales_engine.analyst
+    assert_instance_of Hash, sa.group_items_by_merchant_id
+    assert_equal 243, sa.hash_of_merchants_with_one_item.keys.count
+    assert_equal 243, sa.merchants_with_only_one_item.count
   end
 
   def test_it_can_calculate_total_revenue_date
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
-      merchants:  "./data/merchants.csv",
-      invoices:  "./data/invoices.csv",
-      invoice_items:  "./data/invoice_items.csv",
-      transactions:  "./data/transactions.csv",
-      customers:  "./data/customers.csv"
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
-    assert_equal 8, sales_analyst.finds_invoice_items_totals("2009-02-07").count
-    assert_equal 8, sales_analyst.finds_invoice_items_by_date("2009-02-07").count
-    assert_equal 1, sales_analyst.finds_invoices_by_date("2009-02-07").count
-    assert_equal 21067.77, sales_analyst.total_revenue_by_date("2009-02-07")
+    sa = sales_engine.analyst
+    assert_equal 8, sa.finds_invoice_items_totals("2009-02-07").count
+    assert_equal 8, sa.finds_invoice_items_by_date("2009-02-07").count
+    assert_equal 1, sa.finds_invoices_by_date("2009-02-07").count
+    assert_equal 21067.77, sa.total_revenue_by_date("2009-02-07")
   end
 
   def test_it_can_return_the_top_revenue_earners
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
-      merchants:  "./data/merchants.csv",
-      invoices:  "./data/invoices.csv",
-      invoice_items:  "./data/invoice_items.csv",
-      transactions:  "./data/transactions.csv",
-      customers:  "./data/customers.csv"
+      merchants: "./data/merchants.csv",
+      invoices: "./data/invoices.csv",
+      invoice_items: "./data/invoice_items.csv",
+      transactions: "./data/transactions.csv",
+      customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
+    sa = sales_engine.analyst
 
-    #assert_instance_of Hash, sales_analyst.grouped_invoices_by_merchants
-    #assert_instance_of Hash, sales_analyst.finds_grouped_invoice_ids
-    #assert_instance_of Array, sales_analyst.finds_grouped_invoice_ids.values
-    #assert_instance_of Hash, sales_analyst.finds_grouped_invoice_items
-    #assert_instance_of Hash, sales_analyst.finds_invoice_totals
-    #assert_instance_of Hash, sales_analyst.finds_pre_sorted_sums
-    #assert_instance_of BigDecimal, sales_analyst.finds_pre_sorted_sums.values[0]
-    assert_equal 343344, sales_analyst.sorted_merchants_by_revenue_totals
+    #assert_instance_of Hash, sa.grouped_invoices_by_merchants
+    #assert_instance_of Hash, sa.finds_grouped_invoice_ids
+    #assert_instance_of Array, sa.finds_grouped_invoice_ids.values
+    #assert_instance_of Hash, sa.finds_grouped_invoice_items
+    #assert_instance_of Hash, sa.finds_invoice_totals
+    #assert_instance_of Hash, sa.finds_pre_sorted_sums
+    #assert_instance_of BigDecimal, sa.finds_pre_sorted_sums.values[0]
+    assert_equal 343344, sa.sorted_merchants_by_revenue_totals
   end
 
   def test_it_can_find_merchants_with_pending_invoices
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants: "./data/merchants.csv",
@@ -417,18 +393,17 @@ class SalesAnalystTest < MiniTest::Test
       customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
+    sa = sales_engine.analyst
 
-    assert_equal 4158, sales_analyst.find_all_successful_transactions.count
-    assert_equal 4158, sales_analyst.find_invoice_ids_for_successful_transactions.count
-    assert_equal 2175, sales_analyst.pending_invoices.count
-    assert_equal 467, sales_analyst.merchant_ids_from_pending_invoices.count
-    assert_instance_of Merchant, sales_analyst.merchants_with_pending_invoices[0]
-    assert_equal 467, sales_analyst.merchants_with_pending_invoices.count
+    assert_equal 4158, sa.find_all_successful_transactions.count
+    assert_equal 4158, sa.find_invoice_ids_for_successful_transactions.count
+    assert_equal 2175, sa.pending_invoices.count
+    assert_equal 467, sa.merchant_ids_from_pending_invoices.count
+    assert_instance_of Merchant, sa.merchants_with_pending_invoices[0]
+    assert_equal 467, sa.merchants_with_pending_invoices.count
   end
 
   def test_it_can_calculate_total_revenue_by_merchant
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants: "./data/merchants.csv",
@@ -438,13 +413,12 @@ class SalesAnalystTest < MiniTest::Test
       customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
+    sa = sales_engine.analyst
 
-    assert_equal 2143253, sales_analyst.top_revenue_earners(20)
+    assert_equal 2143253, sa.top_revenue_earners(20)
   end
 
   def test_it_finds_merchants_with_only_one_item_registered_in_month
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants: "./data/merchants.csv",
@@ -454,19 +428,19 @@ class SalesAnalystTest < MiniTest::Test
       customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
+    sa = sales_engine.analyst
 
-    assert_instance_of Array, sales_analyst.all_merchants_by_given_month("March")
-    assert_instance_of Hash, sales_analyst.hash_of_merchants_in_month_with_ids("March")
-    assert_instance_of Hash, sales_analyst.hash_of_merchants_with_items("March")
-    assert_instance_of Array, sales_analyst.hash_of_merchants_with_items("March").values
-    assert_instance_of Item, sales_analyst.hash_of_merchants_with_items("March").values[0][0]
-    assert_instance_of Hash, sales_analyst.hash_of_merchants_with_only_one_item("March")
-    assert_equal 21, sales_analyst.merchants_with_only_one_item_registered_in_month("March").count
+    actual = merchants_with_only_one_item_registered_in_month("March")
+    assert_instance_of Array, sa.all_merchants_by_given_month("March")
+    assert_instance_of Hash, sa.hash_of_merchants_in_month_with_ids("March")
+    assert_instance_of Hash, sa.hash_of_merchants_with_items("March")
+    assert_instance_of Array, sa.hash_of_merchants_with_items("March").values
+    assert_instance_of Item, sa.hash_of_merchants_with_items("March").values[0][0]
+    assert_instance_of Hash, sa.hash_of_merchants_with_only_one_item("March")
+    assert_equal 21, sa.actual.count
   end
 
   def test_it_finds_most_sold_items_for_merchants
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants: "./data/merchants.csv",
@@ -476,29 +450,28 @@ class SalesAnalystTest < MiniTest::Test
       customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
+    sa = sales_engine.analyst
 
-    actual_1 = sales_analyst.total_quantities_of_invoice_items(12334189)
+    actual_1 = sa.total_quantities_of_invoice_items(12334189)
     assert_instance_of Hash, actual_1
     assert_instance_of InvoiceItem, actual_1.keys[0]
 
-    actual_2 = sales_analyst.sorted_hash_of_invoice_items_and_quantities(12334189)
+    actual_2 = sa.sorted_hash_of_invoice_items_and_quantities(12334189)
     assert_instance_of Hash, actual_2
 
-    actual_3 = sales_analyst.reject_the_lower_ranking_items(12334189)
+    actual_3 = sa.reject_the_lower_ranking_items(12334189)
     assert_instance_of Hash, actual_3
 
-    actual_4 = sales_analyst.finds_invoice_ids_from_most_sold_items(12334189)
+    actual_4 = sa.finds_invoice_ids_from_most_sold_items(12334189)
     assert_equal 2, actual_4.count
     assert_instance_of Array, actual_4
 
-    actual_5 = sales_analyst.reject_the_lower_ranking_items(12337105)
+    actual_5 = sa.reject_the_lower_ranking_items(12337105)
 
     assert_equal 213546564352, actual_5
   end
 
   def test_it_returns_best_item_for_merchant
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants: "./data/merchants.csv",
@@ -508,25 +481,25 @@ class SalesAnalystTest < MiniTest::Test
       customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
-    actual_1 = sales_analyst.finds_all_invoice_items_associated_with_a_merchant(12334189)
+    sa = sales_engine.analyst
+    actual_1 = sa.finds_all_invoice_items_associated_with_a_merchant(12334189)
     assert_instance_of Array, actual_1
     assert_instance_of InvoiceItem, actual_1[0]
 
-    actual_2 = sales_analyst.finds_revenue_associated_with_invoice_items(12334189)
+    actual_2 = sa.finds_revenue_associated_with_invoice_items(12334189)
     assert_instance_of Hash, actual_2
     assert_instance_of InvoiceItem, actual_2.keys[0]
     assert_instance_of BigDecimal, actual_2.values[0]
 
-    actual_3 = sales_analyst.sorts_invoice_items_by_revenue(12334189)
+    actual_3 = sa.sorts_invoice_items_by_revenue(12334189)
     assert_instance_of Hash, actual_3
     assert actual_3.values[-1] > actual_3.values[-2]
 
-    actual_4 = sales_analyst.best_item_for_merchant(12334189)
+    actual_4 = sa.best_item_for_merchant(12334189)
     assert_equal 263516130, actual_4.id
     assert_instance_of Item, actual_4
 
-    actual_5 = sales_analyst.best_item_for_merchant(12337105)
+    actual_5 = sa.best_item_for_merchant(12337105)
     assert_equal 263463003, actual_5.id
     assert_instance_of Item, actual_5
   end
@@ -541,20 +514,20 @@ class SalesAnalystTest < MiniTest::Test
       customers: "./data/customers.csv"
     })
 
-    sales_analyst = sales_engine.analyst
-    actual_1 = sales_analyst.finds_quantities_with_invoice_items(12334189)
+    sa = sales_engine.analyst
+    actual_1 = sa.finds_quantities_with_invoice_items(12334189)
     assert_instance_of Hash, actual_1
     assert_instance_of InvoiceItem, actual_1.keys[0]
     assert_equal 9, actual_1.values[-1]
 
-    actual_2 =  sales_analyst.sorts_invoice_items_by_quantity_sold(12334189)
+    actual_2 =  sa.sorts_invoice_items_by_quantity_sold(12334189)
     assert_instance_of Hash, actual_2
     assert actual_2.values[-1] > actual_2.values[0]
 
-    actual_3 = sales_analyst.finds_most_sold_invoice_items(12334189).values[0]
+    actual_3 = sa.finds_most_sold_invoice_items(12334189).values[0]
     assert_equal 10, actual_3
 
-    actual_4 = sales_analyst.most_sold_item_for_merchant(12334189)
+    actual_4 = sa.most_sold_item_for_merchant(12334189)
     assert_instance_of Item, actual_4[0]
     assert_equal "Adult Princess Leia Hat", actual_4.first.name
   end

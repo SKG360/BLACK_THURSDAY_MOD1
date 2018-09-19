@@ -6,12 +6,12 @@ require 'bigdecimal'
 require 'time'
 require './lib/item'
 
-class ItemTest < MinitestTest
+class ItemTest < Minitest::Test
   def test_it_exists
     i = Item.new({
       id: 1,
-      name: "Pencil",
-      description: "You can use it to write things",
+      name: 'Pencil',
+      description: 'You can use it to write things',
       unit_price: BigDecimal.new(10.99,4),
       created_at: Time.now,
       updated_at: Time.now,
@@ -24,8 +24,8 @@ class ItemTest < MinitestTest
   def test_it_can_return_id_as_integer
     i = Item.new({
       id: 1,
-      name: "Pencil",
-      description: "You can use it to write things",
+      name: 'Pencil',
+      description: 'You can use it to write things',
       unit_price: BigDecimal.new(10.99,4),
       created_at: Time.now,
       updated_at: Time.now,
@@ -38,36 +38,36 @@ class ItemTest < MinitestTest
   def test_it_can_return_name_of_item
     i = Item.new({
       id: 1,
-      name: "Pencil",
-      description: "You can use it to write things",
+      name: 'Pencil',
+      description: 'You can use it to write things',
       unit_price: BigDecimal.new(10.99,4),
       created_at: Time.now,
       updated_at: Time.now,
       merchant_id: 2
     })
 
-    assert_equal "Pencil", i.name
+    assert_equal 'Pencil', i.name
   end
 
   def test_it_can_return_description_of_item
     i = Item.new({
       id: 1,
-      name: "Pencil",
-      description: "You can use it to write things",
+      name: 'Pencil',
+      description: 'You can use it to write things',
       unit_price: BigDecimal.new(10.99,4),
       created_at: Time.now,
       updated_at: Time.now,
       merchant_id: 2
     })
 
-    assert_equal "You can use it to write things", i.description
+    assert_equal 'You can use it to write things', i.description
   end
 
   def test_it_can_return_unit_price_as_big_decimal
     i = Item.new({
       id: 1,
-      name: "Pencil",
-      description: "You can use it to write things",
+      name: 'Pencil',
+      description: 'You can use it to write things',
       unit_price: BigDecimal.new(10.99, 4),
       created_at: Time.now,
       updated_at: Time.now,
@@ -80,8 +80,8 @@ class ItemTest < MinitestTest
   def test_it_can_return_instance_of_time_at_creation
     i = Item.new({
       id: 1,
-      name: "Pencil",
-      description: "You can use it to write things",
+      name: 'Pencil',
+      description: 'You can use it to write things',
       unit_price: BigDecimal.new(10.99,4),
       created_at: Time.now,
       updated_at: Time.now,
@@ -94,8 +94,8 @@ class ItemTest < MinitestTest
   def test_it_can_return_instance_of_time_for_updates
     i = Item.new({
       id: 1,
-      name: "Pencil",
-      description: "You can use it to write things",
+      name: 'Pencil',
+      description: 'You can use it to write things',
       unit_price: BigDecimal.new(10.99,4),
       created_at: Time.now,
       updated_at: Time.now,
@@ -108,8 +108,8 @@ class ItemTest < MinitestTest
   def test_it_can_return_merchant_id_as_integer
     i = Item.new({
       id: 1,
-      name: "Pencil",
-      description: "You can use it to write things",
+      name: 'Pencil',
+      description: 'You can use it to write things',
       unit_price: BigDecimal.new(10.99,4),
       created_at: Time.now,
       updated_at: Time.now,
@@ -122,8 +122,8 @@ class ItemTest < MinitestTest
   def test_it_can_return_unit_price_in_dollars
     i = Item.new({
       id: 1,
-      name: "Pencil",
-      description: "You can use it to write things",
+      name: 'Pencil',
+      description: 'You can use it to write things',
       unit_price: BigDecimal.new(10.99,4),
       created_at: Time.now,
       updated_at: Time.now,
