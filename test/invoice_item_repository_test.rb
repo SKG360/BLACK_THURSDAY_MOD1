@@ -11,10 +11,12 @@ require './lib/sales_engine'
 class InvoiceRepositoryTest < Minitest::Test
   def test_if_it_exists
     se = SalesEngine.from_csv({
-    :items     => "./data/items.csv",
-    :merchants => "./data/merchants.csv",
-    :invoices => "./data/invoices.csv",
-    :invoice_items => "./data/invoice_items.csv"
+      items: './data/items.csv',
+      merchants: './data/merchants.csv',
+      invoices: './data/invoices.csv',
+      invoice_items: './data/invoice_items.csv',
+      transactions: './data/transactions.csv',
+      customers: './data/customers.csv'
     })
 
     assert_instance_of InvoiceItemRepository, se.invoice_items
@@ -22,10 +24,12 @@ class InvoiceRepositoryTest < Minitest::Test
 
   def test_it_can_find_all
     se = SalesEngine.from_csv({
-      :items     => "./data/items.csv",
-      :merchants => "./data/merchants.csv",
-      :invoices => "./data/invoices.csv",
-      :invoice_items => "./data/invoice_items.csv"
+      items: './data/items.csv',
+      merchants: './data/merchants.csv',
+      invoices: './data/invoices.csv',
+      invoice_items: './data/invoice_items.csv',
+      transactions: './data/transactions.csv',
+      customers: './data/customers.csv'
     })
 
     invoice_item = se.invoice_items
@@ -35,10 +39,12 @@ class InvoiceRepositoryTest < Minitest::Test
 
   def test_it_can_find_by_id
     se = SalesEngine.from_csv({
-      :items     => "./data/items.csv",
-      :merchants => "./data/merchants.csv",
-      :invoices => "./data/invoices.csv",
-      :invoice_items => "./data/invoice_items.csv"
+      items: './data/items.csv',
+      merchants: './data/merchants.csv',
+      invoices: './data/invoices.csv',
+      invoice_items: './data/invoice_items.csv',
+      transactions: './data/transactions.csv',
+      customers: './data/customers.csv'
     })
 
     invoice_item = se.invoice_items
@@ -51,10 +57,12 @@ class InvoiceRepositoryTest < Minitest::Test
 
   def test_it_can_find_all_by_item_id
     se = SalesEngine.from_csv({
-      :items     => "./data/items.csv",
-      :merchants => "./data/merchants.csv",
-      :invoices => "./data/invoices.csv",
-      :invoice_items => "./data/invoice_items.csv"
+      items: './data/items.csv',
+      merchants: './data/merchants.csv',
+      invoices: './data/invoices.csv',
+      invoice_items: './data/invoice_items.csv',
+      transactions: './data/transactions.csv',
+      customers: './data/customers.csv'
     })
 
     invoice_item = se.invoice_items
@@ -66,10 +74,12 @@ class InvoiceRepositoryTest < Minitest::Test
 
   def test_it_can_find_all_by_invoice_id
     se = SalesEngine.from_csv({
-      :items     => "./data/items.csv",
-      :merchants => "./data/merchants.csv",
-      :invoices => "./data/invoices.csv",
-      :invoice_items => "./data/invoice_items.csv"
+      items: './data/items.csv',
+      merchants: './data/merchants.csv',
+      invoices: './data/invoices.csv',
+      invoice_items: './data/invoice_items.csv',
+      transactions: './data/transactions.csv',
+      customers: './data/customers.csv'
     })
 
     invoice_item = se.invoice_items
@@ -80,10 +90,12 @@ class InvoiceRepositoryTest < Minitest::Test
 
   def test_it_can_create_new_invoice_item
     se = SalesEngine.from_csv({
-      :items     => "./data/items.csv",
-      :merchants => "./data/merchants.csv",
-      :invoices => "./data/invoices.csv",
-      :invoice_items => "./data/invoice_items.csv"
+      items: './data/items.csv',
+      merchants: './data/merchants.csv',
+      invoices: './data/invoices.csv',
+      invoice_items: './data/invoice_items.csv',
+      transactions: './data/transactions.csv',
+      customers: './data/customers.csv'
     })
 
     invoice_item = se.invoice_items
@@ -102,10 +114,12 @@ class InvoiceRepositoryTest < Minitest::Test
 
   def test_it_can_update_only_quantity_and_unit_price
     se = SalesEngine.from_csv({
-      :items     => "./data/items.csv",
-      :merchants => "./data/merchants.csv",
-      :invoices => "./data/invoices.csv",
-      :invoice_items => "./data/invoice_items.csv"
+      items: './data/items.csv',
+      merchants: './data/merchants.csv',
+      invoices: './data/invoices.csv',
+      invoice_items: './data/invoice_items.csv',
+      transactions: './data/transactions.csv',
+      customers: './data/customers.csv'
     })
 
     attributes = {
@@ -131,10 +145,12 @@ class InvoiceRepositoryTest < Minitest::Test
 
   def test_it_deletes_invoices
     se = SalesEngine.from_csv({
-      :items     => "./data/items.csv",
-      :merchants => "./data/merchants.csv",
-      :invoices => "./data/invoices.csv",
-      :invoice_items => "./data/invoice_items.csv"
+      items: './data/items.csv',
+      merchants: './data/merchants.csv',
+      invoices: './data/invoices.csv',
+      invoice_items: './data/invoice_items.csv',
+      transactions: './data/transactions.csv',
+      customers: './data/customers.csv'
     })
 
     attributes = {
@@ -152,6 +168,4 @@ class InvoiceRepositoryTest < Minitest::Test
 
     assert_nil invoice_item.find_by_id(21831)
   end
-
-
 end

@@ -38,7 +38,7 @@ class SalesAnalyst
   end
 
   def average_item_price_for_merchant(merchant_id)
-    num_of_items = array_of_merch_items(merchant_id).length
+    num_of_items = find_item_unit_price(merchant_id).length
     average = (sum_of_merch_items_array(merchant_id) / num_of_items).round(2)
     BigDecimal.new(average, 4)
   end
@@ -131,8 +131,8 @@ class SalesAnalyst
   end
 
   def revenue_by_merchant(merchant_id)
-    merchant_invoices = all_invoice_ids_for_merchant(merchant_id)
-    collection_of_totals = merchant_invoices.map do |invoice_id|
+    merchant_invoice_ids = all_invoice_ids_for_merchant(merchant_id)
+    collection_of_totals = merchant_invoice_ids.map do |invoice_id|
       sum_of_invoice_items_by_invoice(invoice_id)
     end
     sum_of_collection(collection_of_totals)

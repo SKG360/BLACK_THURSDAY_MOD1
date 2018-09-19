@@ -29,11 +29,8 @@ class MerchantRepository
   end
 
   def update(id, attributes)
-    @storage.find do |merchant|
-      if merchant.id == id
-        merchant.name = attributes[:name]
-      else
-      end
-    end
+    merchant = find_by_id(id)
+    no_name = attributes[:name].nil?
+    merchant.name = attributes[:name] unless no_name
   end
 end

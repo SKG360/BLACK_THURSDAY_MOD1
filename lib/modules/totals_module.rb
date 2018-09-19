@@ -1,4 +1,5 @@
 module Totals
+
   def total_merchants
     @sales_engine.merchants.storage.length
   end
