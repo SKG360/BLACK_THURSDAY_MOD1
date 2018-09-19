@@ -378,7 +378,7 @@ class SalesAnalystTest < MiniTest::Test
     sa = sales_engine.analyst
 
     assert_equal 4158, sa.find_all_successful_transactions.count
-    assert_equal 4158, sa.find_invoice_ids_for_successful_transactions.count
+    assert_equal 2810, sa.find_invoice_ids_for_successful_transactions.count
     assert_equal 2175, sa.pending_invoices.count
     assert_equal 467, sa.merchant_ids_from_pending_invoices.count
     assert_instance_of Merchant, sa.merchants_with_pending_invoices[0]
@@ -412,14 +412,14 @@ class SalesAnalystTest < MiniTest::Test
 
     sa = sales_engine.analyst
 
-    actual = merchants_with_only_one_item_registered_in_month("March")
+    actual = sa.merchants_with_only_one_item_registered_in_month("March")
     assert_instance_of Array, sa.all_merchants_by_given_month("March")
     assert_instance_of Hash, sa.hash_of_merchants_in_month_with_ids("March")
     assert_instance_of Hash, sa.hash_of_merchants_with_items("March")
     assert_instance_of Array, sa.hash_of_merchants_with_items("March").values
     assert_instance_of Item, sa.hash_of_merchants_with_items("March").values[0][0]
     assert_instance_of Hash, sa.hash_of_merchants_with_only_one_item("March")
-    assert_equal 21, sa.actual.count
+    assert_equal 21, actual.count
   end
 
   def test_it_finds_most_sold_items_for_merchants
@@ -434,23 +434,9 @@ class SalesAnalystTest < MiniTest::Test
 
     sa = sales_engine.analyst
 
-    actual_1 = sa.total_quantities_of_invoice_items(12334189)
-    assert_instance_of Hash, actual_1
-    assert_instance_of InvoiceItem, actual_1.keys[0]
-
-    actual_2 = sa.sorted_hash_of_invoice_items_and_quantities(12334189)
-    assert_instance_of Hash, actual_2
-
-    actual_3 = sa.reject_the_lower_ranking_items(12334189)
-    assert_instance_of Hash, actual_3
-
-    actual_4 = sa.finds_invoice_ids_from_most_sold_items(12334189)
-    assert_equal 2, actual_4.count
-    assert_instance_of Array, actual_4
-
-    actual_5 = sa.reject_the_lower_ranking_items(12337105)
-
-    assert_equal 213546564352, actual_5
+    actual_1 = sa.most_sold_item_for_merchant(12334189)
+    assert_equal "Adult Princess Leia Hat", actual_1[0].name
+    assert_equal 263524984, actual_1[0].id
   end
 
   def test_it_returns_best_item_for_merchant
@@ -500,7 +486,7 @@ class SalesAnalystTest < MiniTest::Test
     actual_1 = sa.finds_quantities_with_invoice_items(12334189)
     assert_instance_of Hash, actual_1
     assert_instance_of InvoiceItem, actual_1.keys[0]
-    assert_equal 9, actual_1.values[-1]
+    assert_equal 10, actual_1.values[0]
 
     actual_2 =  sa.sorts_invoice_items_by_quantity_sold(12334189)
     assert_instance_of Hash, actual_2
