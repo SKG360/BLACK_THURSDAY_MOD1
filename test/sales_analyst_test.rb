@@ -348,7 +348,6 @@ class SalesAnalystTest < MiniTest::Test
   end
 
   def test_it_can_return_the_top_revenue_earners
-    skip
     sales_engine = SalesEngine.from_csv({
       items: "./data/items.csv",
       merchants: "./data/merchants.csv",
@@ -359,15 +358,11 @@ class SalesAnalystTest < MiniTest::Test
     })
 
     sa = sales_engine.analyst
-
-    #assert_instance_of Hash, sa.grouped_invoices_by_merchants
-    #assert_instance_of Hash, sa.finds_grouped_invoice_ids
-    #assert_instance_of Array, sa.finds_grouped_invoice_ids.values
-    #assert_instance_of Hash, sa.finds_grouped_invoice_items
-    #assert_instance_of Hash, sa.finds_invoice_totals
-    #assert_instance_of Hash, sa.finds_pre_sorted_sums
-    #assert_instance_of BigDecimal, sa.finds_pre_sorted_sums.values[0]
-    assert_equal 343344, sa.sorted_merchants_by_revenue_totals
+    assert_instance_of Array, sa.merchants_ranked_by_revenue
+    assert_equal "KAMNAI", sa.merchants_ranked_by_revenue[-1].name
+    assert_instance_of Array, sa.top_revenue_earners(10)
+    assert_equal "SHOPAMO", sa.top_revenue_earners(10)[-1].name
+    assert_equal 12335747, sa.top_revenue_earners(10)[-1].id
   end
 
   def test_it_can_find_merchants_with_pending_invoices
